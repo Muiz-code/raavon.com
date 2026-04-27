@@ -1,26 +1,26 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { ArrowRight } from 'lucide-react'
-import ScrollReveal from '@/components/ui/ScrollReveal'
+import { useEffect, useState } from "react";
+import { ArrowRight } from "lucide-react";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
-const WORDS = ['ideas', 'ventures', 'brands', 'impact', 'value']
-const INTERVAL = 2600
+const WORDS = ["ideas", "ventures", "brands", "impact", "value"];
+const INTERVAL = 2600;
 
 export default function Hero() {
-  const [index, setIndex] = useState(0)
-  const [visible, setVisible] = useState(true)
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setVisible(false)
+      setVisible(false);
       setTimeout(() => {
-        setIndex((i) => (i + 1) % WORDS.length)
-        setVisible(true)
-      }, 380)
-    }, INTERVAL)
-    return () => clearInterval(id)
-  }, [])
+        setIndex((i) => (i + 1) % WORDS.length);
+        setVisible(true);
+      }, 380);
+    }, INTERVAL);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <section
@@ -33,44 +33,45 @@ export default function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute"
         style={{
-          width: 'clamp(400px, 55vw, 800px)',
-          height: 'clamp(400px, 55vw, 800px)',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(78,44,32,0.14) 0%, transparent 70%)',
-          bottom: '-10%',
-          left: '-15%',
-          animation: 'drift-reverse 22s ease-in-out infinite alternate',
-          filter: 'blur(80px)',
+          width: "clamp(400px, 55vw, 800px)",
+          height: "clamp(400px, 55vw, 800px)",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(78,44,32,0.14) 0%, transparent 70%)",
+          bottom: "-10%",
+          left: "-15%",
+          animation: "drift-reverse 22s ease-in-out infinite alternate",
+          filter: "blur(80px)",
         }}
       />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute"
         style={{
-          width: 'clamp(300px, 40vw, 600px)',
-          height: 'clamp(300px, 40vw, 600px)',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(193,154,107,0.07) 0%, transparent 70%)',
-          top: '-5%',
-          right: '-10%',
-          animation: 'drift 18s ease-in-out infinite alternate',
-          filter: 'blur(90px)',
+          width: "clamp(300px, 40vw, 600px)",
+          height: "clamp(300px, 40vw, 600px)",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(193,154,107,0.07) 0%, transparent 70%)",
+          top: "-5%",
+          right: "-10%",
+          animation: "drift 18s ease-in-out infinite alternate",
+          filter: "blur(90px)",
         }}
       />
 
       {/* Centered content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto">
-
         {/* Pill badge */}
         <ScrollReveal>
           <div className="inline-flex items-center mb-15">
             <span
               className="font-dm text-xs tracking-[0.2em] uppercase px-4 py-1.5"
               style={{
-                border: '1px solid rgba(193,154,107,0.45)',
-                color: '#C19A6B',
-                background: 'rgba(193,154,107,0.06)',
-                borderRadius: '999px',
+                border: "1px solid rgba(193,154,107,0.45)",
+                color: "#C19A6B",
+                background: "rgba(193,154,107,0.06)",
+                borderRadius: "999px",
               }}
             >
               Raavon Group &nbsp;·&nbsp; Est. 2026
@@ -80,20 +81,19 @@ export default function Hero() {
 
         <h1
           className="font-jakarta font-extrabold leading-[1.2] mb-8 w-screen"
-          style={{ fontSize: 'clamp(3.5rem, 9vw, 9rem)', color: 'var(--text)' }}
+          style={{ fontSize: "clamp(3.5rem, 9vw, 9rem)", color: "var(--text)" }}
         >
           <ScrollReveal delay={0.05}>
             <span>We bring </span>
-            {/* Rotating word */}
             <span
               className="font-fraunces italic font-light"
               style={{
-                color: '#C19A6B',
-                fontSize: 'clamp(3.8rem, 9.5vw, 9.8rem)',
-                display: 'inline-block',
+                color: "#C19A6B",
+                fontSize: "clamp(3.8rem, 9.5vw, 9.8rem)",
+                display: "inline-block",
                 opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(-10px)',
-                transition: 'opacity 0.32s ease, transform 0.32s ease',
+                transform: visible ? "translateY(0)" : "translateY(-10px)",
+                transition: "opacity 0.32s ease, transform 0.32s ease",
               }}
             >
               {WORDS[index]}
@@ -102,8 +102,15 @@ export default function Hero() {
 
           <ScrollReveal delay={0.25}>
             <span className="block">
-              to life{' '}
-              <span style={{ color: '#C19A6B', fontSize: 'clamp(3.8rem, 9.5vw, 9.8rem)' }}>.</span>
+              to life{" "}
+              <span
+                style={{
+                  color: "#C19A6B",
+                  fontSize: "clamp(3.8rem, 9.5vw, 9.8rem)",
+                }}
+              >
+                .
+              </span>
             </span>
           </ScrollReveal>
         </h1>
@@ -111,7 +118,7 @@ export default function Hero() {
         <ScrollReveal delay={0.35}>
           <p
             className="font-dm text-base md:text-lg max-w-md mb-12 leading-relaxed"
-            style={{ color: 'var(--muted)' }}
+            style={{ color: "var(--muted)" }}
           >
             One holding company. Many ventures. Built for the world.
           </p>
@@ -126,7 +133,7 @@ export default function Hero() {
             <a
               href="#contact"
               className="font-dm text-sm tracking-wide flex items-center gap-2"
-              style={{ color: 'var(--muted)' }}
+              style={{ color: "var(--muted)" }}
             >
               Get in Touch
               <ArrowRight size={14} aria-hidden="true" />
@@ -138,18 +145,27 @@ export default function Hero() {
         <ScrollReveal delay={0.55}>
           <div
             className="flex flex-wrap justify-center gap-10 pt-8"
-            style={{ borderTop: '1px solid var(--border)' }}
+            style={{ borderTop: "1px solid var(--border)" }}
           >
             {[
-              { value: '2026', label: 'Founded' },
-              { value: '∞', label: 'Industries' },
-              { value: 'Global', label: 'Reach' },
+              { value: "2026", label: "Founded" },
+              { value: "∞", label: "Industries" },
+              { value: "Global", label: "Reach" },
             ].map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center gap-1">
-                <span className="font-jakarta font-bold text-2xl" style={{ color: 'var(--text)' }}>
+              <div
+                key={stat.label}
+                className="flex flex-col items-center gap-1"
+              >
+                <span
+                  className="font-jakarta font-bold text-2xl"
+                  style={{ color: "var(--text)" }}
+                >
                   {stat.value}
                 </span>
-                <span className="font-dm text-xs tracking-widest uppercase" style={{ color: 'var(--muted)' }}>
+                <span
+                  className="font-dm text-xs tracking-widest uppercase"
+                  style={{ color: "var(--muted)" }}
+                >
                   {stat.label}
                 </span>
               </div>
@@ -165,15 +181,16 @@ export default function Hero() {
       >
         <div
           style={{
-            width: '1px',
-            height: '48px',
-            background: 'linear-gradient(to bottom, rgba(193,154,107,0.6), transparent)',
-            animation: 'scrollBounce 2s ease-in-out infinite',
+            width: "1px",
+            height: "48px",
+            background:
+              "linear-gradient(to bottom, rgba(193,154,107,0.6), transparent)",
+            animation: "scrollBounce 2s ease-in-out infinite",
           }}
         />
         <span
           className="font-dm text-xs tracking-[0.2em] uppercase"
-          style={{ color: 'rgba(193,154,107,0.45)' }}
+          style={{ color: "rgba(193,154,107,0.45)" }}
         >
           Scroll
         </span>
@@ -186,5 +203,5 @@ export default function Hero() {
         }
       `}</style>
     </section>
-  )
+  );
 }
