@@ -1,63 +1,91 @@
-import { ArrowUpRight } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { ArrowRight } from 'lucide-react'
 
 interface VentureCardProps {
-  tag: string
   name: string
   description: string
   status: string
   active: boolean
+  icon: React.ElementType
 }
 
-export default function VentureCard({ tag, name, description, status, active }: VentureCardProps) {
+export default function VentureCard({ name, description, status, active, icon: Icon }: VentureCardProps) {
   return (
-    <article
-      className={cn(
-        'venture-card p-8 rounded-none flex flex-col gap-5 transition-all duration-300',
-        !active && 'opacity-50'
-      )}
-      style={{
-        background: 'var(--card)',
-        border: '1px solid var(--border)',
-        height: '320px',
-      }}
-      data-cursor-grow
-    >
-      <div className="flex items-start justify-between gap-4">
-        <p className="font-dm text-xs tracking-widest uppercase" style={{ color: '#C19A6B' }}>
-          {tag}
+    /* Outer wrapper gives room for the floating icon above the card */
+    <div className="relative mt-10 h-full">
+
+      {/* Floating icon badge */}
+      <div className="absolute -top-9 left-1/2 -translate-x-1/2 z-10">
+        <div
+          style={{
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '1rem',
+            padding: '1rem',
+            boxShadow: '0 12px 32px rgba(0,0,0,0.35)',
+          }}
+        >
+          <Icon size={28} style={{ color: '#C19A6B' }} aria-hidden="true" />
+        </div>
+      </div>
+
+      {/* Card */}
+      <article
+        className="flex flex-col items-center text-center h-full"
+        style={{
+          background: 'var(--card)',
+          border: '1px solid var(--border)',
+          borderRadius: '1.25rem',
+          padding: '4rem 2rem 2rem',
+          opacity: active ? 1 : 0.55,
+        }}
+        data-cursor-grow
+      >
+        <h3
+          className="font-jakarta font-bold text-xl mb-5"
+          style={{ color: 'var(--text)' }}
+        >
+          {name}
+        </h3>
+
+        <p
+          className="font-dm text-sm leading-relaxed flex-1 mb-8"
+          style={{ color: 'var(--muted)', textAlign: 'justify' }}
+        >
+          {description}
         </p>
-        {active && (
-          <ArrowUpRight
-            size={18}
-            style={{ color: '#C19A6B', flexShrink: 0 }}
-            aria-hidden="true"
-          />
-        )}
-      </div>
 
-      <h3 className="font-jakarta font-bold text-2xl" style={{ color: 'var(--text)' }}>
-        {name}
-      </h3>
+        {/* Status row */}
+        <div className="flex items-center gap-2 mb-6">
+          {active ? (
+            <span className="pulse-dot" aria-hidden="true" />
+          ) : (
+            <span
+              className="w-2 h-2 rounded-full border shrink-0"
+              style={{ borderColor: 'var(--muted)' }}
+              aria-hidden="true"
+            />
+          )}
+          <span className="font-dm text-xs tracking-wide" style={{ color: 'var(--muted)' }}>
+            {status}
+          </span>
+        </div>
 
-      <p className="font-dm text-sm leading-relaxed flex-1" style={{ color: 'var(--muted)' }}>
-        {description}
-      </p>
-
-      <div className="flex items-center gap-2 pt-2">
-        {active ? (
-          <span className="pulse-dot" aria-hidden="true" />
-        ) : (
-          <span
-            className="w-2 h-2 rounded-full border flex-shrink-0"
-            style={{ borderColor: 'var(--muted)' }}
-            aria-hidden="true"
-          />
-        )}
-        <span className="font-dm text-xs tracking-wide" style={{ color: 'var(--muted)' }}>
-          {status}
-        </span>
-      </div>
-    </article>
+        {/* Arrow button */}
+        <div
+          style={{
+            width: '3rem',
+            height: '3rem',
+            borderRadius: '50%',
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ArrowRight size={16} style={{ color: '#C19A6B' }} aria-hidden="true" />
+        </div>
+      </article>
+    </div>
   )
 }

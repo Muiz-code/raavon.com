@@ -1,6 +1,9 @@
+import { Wallet, Sparkles, Layers } from 'lucide-react'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import VentureCard from '@/components/ui/VentureCard'
 import { VENTURES } from '@/lib/constants'
+
+const ICONS = [Wallet, Sparkles, Layers]
 
 export default function Ventures() {
   return (
@@ -38,11 +41,11 @@ export default function Ventures() {
           {VENTURES.map((v, i) => (
             <ScrollReveal key={v.name + i} delay={i * 0.12}>
               <VentureCard
-                tag={v.tag}
                 name={v.name}
                 description={v.description}
                 status={v.status}
                 active={v.active}
+                icon={ICONS[i]}
               />
             </ScrollReveal>
           ))}
