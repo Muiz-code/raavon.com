@@ -30,7 +30,7 @@ export default function Philosophy() {
 
       {/* Section label */}
       <p
-        className="relative z-10 font-dm text-xs tracking-[0.25em] uppercase mb-10 text-center"
+        className="relative z-10 font-dm text-base tracking-[0.25em] uppercase mb-10 text-center"
         style={{ color: "#C19A6B" }}
       >
         Moodboard
@@ -100,7 +100,7 @@ export default function Philosophy() {
           }}
         >
           <span
-            className="font-dm text-xs tracking-[0.25em] uppercase"
+            className="font-dm text-base tracking-[0.25em] uppercase"
             style={{ color: "#0A0A0A" }}
           >
             Caramel
@@ -148,7 +148,7 @@ export default function Philosophy() {
           }}
         >
           <span
-            className="font-dm text-xs tracking-[0.25em] uppercase"
+            className="font-dm text-base tracking-[0.25em] uppercase"
             style={{ color: "rgba(193,154,107,0.7)" }}
           >
             Mahogany
@@ -180,7 +180,7 @@ export default function Philosophy() {
           }}
         >
           <span
-            className="font-dm text-xs tracking-[0.3em] uppercase"
+            className="font-dm text-base tracking-[0.3em] uppercase"
             style={{ color: "#C19A6B" }}
           >
             Est. 2026
@@ -213,7 +213,7 @@ export default function Philosophy() {
             It exists.&quot;
           </p>
           <span
-            className="font-dm text-xs mt-3 tracking-widest uppercase"
+            className="font-dm text-base mt-3 tracking-widest uppercase"
             style={{ color: "#C19A6B" }}
           >
             — Raavon
@@ -234,7 +234,7 @@ export default function Philosophy() {
           }}
         >
           <span
-            className="font-dm text-xs tracking-[0.25em] uppercase"
+            className="font-dm text-base tracking-[0.25em] uppercase"
             style={{ color: "#4E2C20" }}
           >
             Off White
@@ -256,7 +256,7 @@ export default function Philosophy() {
             src="/mood-3.jpeg"
             alt=""
             fill
-            style={{ objectFit: "cover", objectPosition: "50% 90%" }}
+            style={{ objectFit: "cover", objectPosition: "90% 30%" }}
           />
           <div
             style={{
@@ -266,7 +266,7 @@ export default function Philosophy() {
             }}
           />
           <p
-            className="font-fraunces italic text-sm"
+            className="font-fraunces italic text-base"
             style={{
               position: "absolute",
               bottom: "1rem",
@@ -297,7 +297,7 @@ export default function Philosophy() {
           }}
         >
           <p
-            className="font-fraunces italic text-sm text-center leading-snug"
+            className="font-fraunces italic text-base text-center leading-snug"
             style={{ color: "#0A0A0A" }}
           >
             &quot;Real problems.
@@ -357,7 +357,7 @@ export default function Philosophy() {
             }}
           />
           <p
-            className="font-fraunces italic text-sm"
+            className="font-fraunces italic text-base"
             style={{
               position: "absolute",
               top: "1rem",
@@ -386,7 +386,7 @@ export default function Philosophy() {
           }}
         >
           <span
-            className="font-dm text-xs tracking-[0.25em] uppercase"
+            className="font-dm text-base tracking-[0.25em] uppercase"
             style={{ color: "#C19A6B" }}
           >
             Raavon Group
