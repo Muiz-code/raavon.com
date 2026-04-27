@@ -1,139 +1,181 @@
-import ScrollReveal from '@/components/ui/ScrollReveal'
-import { STAT_CARDS } from '@/lib/constants'
+'use client'
 
-const INDUSTRIES = [
-  'Financial Technology',
-  'Fashion & Culture',
-  'Digital Infrastructure',
-  'AI & Automation',
+import { useRef, useEffect, useState, useCallback } from 'react'
+import ScrollReveal from '@/components/ui/ScrollReveal'
+
+const PILLARS = [
+  {
+    title: 'Who We Are',
+    body: 'A global holding company built to bring ambitious ideas to life across industries and continents.',
+  },
+  {
+    title: 'Our Ventures',
+    body: 'Spanning fintech, fashion, digital infrastructure, and AI — each venture built to define its category.',
+  },
+  {
+    title: 'How We Build',
+    body: "We don't consult. We embed, build with obsession, and deliver ventures that stand on their own.",
+  },
+  {
+    title: 'Our Legacy',
+    body: 'The greatest ideas are not invented — they are revealed. Every Raavon venture is built to outlast trends.',
+  },
 ]
 
+interface Arrow { d: string }
+
+function buildArrows(
+  cards: (HTMLDivElement | null)[],
+  container: HTMLDivElement,
+): Arrow[] {
+  const base = container.getBoundingClientRect()
+  const r = cards.map((c) => {
+    const rect = c?.getBoundingClientRect()
+    if (!rect) return null
+    return {
+      top:     rect.top    - base.top,
+      bottom:  rect.bottom - base.top,
+      left:    rect.left   - base.left,
+      right:   rect.right  - base.left,
+      cx:      rect.left   - base.left + rect.width  / 2,
+      cy:      rect.top    - base.top  + rect.height / 2,
+    }
+  })
+  if (r.some((x) => !x)) return []
+  const [a, b, c, d] = r as NonNullable<(typeof r)[number]>[]
+
+  return [
+    // card 0 right-center → card 1 left-center
+    { d: `M ${a.right},${a.cy} C ${a.right + 36},${a.cy} ${b.left - 36},${b.cy} ${b.left},${b.cy}` },
+    // card 1 bottom-center → card 2 top-center (long diagonal sweep)
+    { d: `M ${b.cx},${b.bottom} C ${b.cx},${b.bottom + 50} ${c.cx},${c.top - 50} ${c.cx},${c.top}` },
+    // card 2 right-center → card 3 left-center
+    { d: `M ${c.right},${c.cy} C ${c.right + 36},${c.cy} ${d.left - 36},${d.cy} ${d.left},${d.cy}` },
+  ]
+}
+
 export default function About() {
+  const containerRef  = useRef<HTMLDivElement>(null)
+  const cardRefs      = useRef<(HTMLDivElement | null)[]>([null, null, null, null])
+  const [arrows, setArrows]       = useState<Arrow[]>([])
+  const [svgHeight, setSvgHeight] = useState(0)
+
+  const measure = useCallback(() => {
+    const el = containerRef.current
+    if (!el || window.innerWidth < 768) { setArrows([]); return }
+    setArrows(buildArrows(cardRefs.current, el))
+    setSvgHeight(el.offsetHeight)
+  }, [])
+
+  useEffect(() => {
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [measure])
+
   return (
-    <section
-      id="about"
-      className="px-10 py-28 md:py-36"
-      aria-labelledby="about-heading"
-    >
-      <div className="max-w-6xl mx-auto">
-        {/* Two-column — 55% left / 45% right */}
-        <div className="grid md:grid-cols-[1.2fr_1fr] gap-16 md:gap-20 items-start mb-16 md:mb-20">
+    <section id="about" className="px-10 py-28 md:py-36" aria-labelledby="about-heading">
+      <div className="max-w-5xl mx-auto">
+        {/* Heading */}
+        <ScrollReveal>
+          <p
+            className="font-dm text-xs tracking-[0.25em] uppercase mb-4 text-center"
+            style={{ color: '#C19A6B' }}
+          >
+            Who We Are
+          </p>
+        </ScrollReveal>
 
-          {/* Left */}
-          <div>
-            <ScrollReveal>
-              <p className="font-dm text-xs tracking-[0.25em] uppercase mb-6" style={{ color: '#C19A6B' }}>
-                Who We Are
-              </p>
-            </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <h2
+            id="about-heading"
+            className="font-jakarta font-bold text-center mb-20 leading-tight"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text)' }}
+          >
+            We don&apos;t just build companies.{' '}
+            <span className="font-fraunces italic font-light" style={{ color: '#C19A6B' }}>
+              We build legacies.
+            </span>
+          </h2>
+        </ScrollReveal>
 
-            <ScrollReveal delay={0.1}>
-              <h2
-                id="about-heading"
-                className="font-jakarta font-bold leading-tight mb-8"
-                style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text)' }}
-              >
-                We don&apos;t just{' '}
-                <br />
-                <span
-                  className="font-fraunces italic font-light"
-                  style={{ color: '#C19A6B' }}
+        {/* Staggered cards */}
+        <div ref={containerRef} className="relative pb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+            {PILLARS.map((pillar, i) => {
+              /* Desktop-only Y offsets via Tailwind arbitrary variants */
+              const yClass = [
+                '',
+                'md:[transform:translateY(80px)]',
+                '',
+                'md:[transform:translateY(64px)]',
+              ][i]
+
+              return (
+                <div
+                  key={pillar.title}
+                  className={yClass}
+                  ref={(el) => { cardRefs.current[i] = el }}
                 >
-                  build companies.
-                </span>
-                <br />
-                We build legacies.
-              </h2>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.2}>
-              <p className="font-dm leading-relaxed mb-5" style={{ color: 'var(--muted)', fontSize: '1.05rem' }}>
-                Raavon is a global holding company built to bring ambitious ideas to life.
-                We are not a consultancy. Not an agency. We are builders.
-              </p>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.28}>
-              <p className="font-dm leading-relaxed mb-8" style={{ color: 'var(--muted)', fontSize: '1.05rem' }}>
-                Every venture that carries the Raavon name is built with the same obsession:
-                quality that makes people feel it was made specifically for them.
-              </p>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.36}>
-              <ul className="flex flex-col gap-3">
-                {INDUSTRIES.map((item) => (
-                  <li key={item} className="flex items-center gap-3 font-dm text-sm" style={{ color: 'var(--muted)' }}>
-                    <span
+                  <ScrollReveal delay={i * 0.12}>
+                    <div
+                      className="p-8 md:p-10 rounded-2xl"
                       style={{
-                        display: 'inline-block',
-                        width: '6px',
-                        height: '6px',
-                        borderRadius: '50%',
-                        background: '#C19A6B',
-                        flexShrink: 0,
+                        background: 'var(--card)',
+                        border: '1px solid var(--border)',
                       }}
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </ScrollReveal>
+                    >
+                      <h3
+                        className="font-jakarta font-bold text-xl mb-4 text-center"
+                        style={{ color: 'var(--text)' }}
+                      >
+                        {pillar.title}
+                      </h3>
+                      <p
+                        className="font-dm text-sm leading-relaxed text-center mx-auto"
+                        style={{ color: 'var(--muted)', maxWidth: '28ch' }}
+                      >
+                        {pillar.body}
+                      </p>
+                    </div>
+                  </ScrollReveal>
+                </div>
+              )
+            })}
           </div>
 
-          {/* Right — floating quote card */}
-          <ScrollReveal delay={0.2}>
-            <div
-              style={{
-                transform: 'rotate(-1deg)',
-                background: 'var(--card)',
-                border: '1px solid rgba(193,154,107,0.25)',
-                borderLeft: '2px solid #C19A6B',
-                padding: '2.5rem',
-                boxShadow: '0 24px 60px rgba(0,0,0,0.3)',
-                marginTop: '3rem',
-              }}
+          {/* Arrows drawn from measured card positions — desktop only */}
+          {arrows.length > 0 && (
+            <svg
+              aria-hidden="true"
+              className="absolute top-0 left-0 pointer-events-none overflow-visible hidden md:block"
+              width="100%"
+              height={svgHeight}
             >
-              <p
-                className="font-fraunces italic leading-relaxed mb-6"
-                style={{ color: 'var(--text)', fontSize: 'clamp(1.1rem, 2vw, 1.35rem)' }}
-              >
-                &ldquo;The greatest ideas are not invented —
-                they are revealed. We reveal them.&rdquo;
-              </p>
-              <p
-                className="font-dm text-xs tracking-[0.25em] uppercase"
-                style={{ color: '#C19A6B' }}
-              >
-                — Raavon Group
-              </p>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* 4 stat cards in a row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {STAT_CARDS.map((card, i) => (
-            <ScrollReveal key={card.label} delay={i * 0.08}>
-              <div
-                className="p-6 flex flex-col gap-2 transition-transform duration-300 hover:-translate-y-1"
-                style={{
-                  background: 'var(--card)',
-                  borderLeft: '2px solid #C19A6B',
-                  border: '1px solid var(--border)',
-                  borderLeftWidth: '2px',
-                  borderLeftColor: '#C19A6B',
-                }}
-              >
-                <p className="font-dm text-xs tracking-widest uppercase" style={{ color: 'var(--muted)' }}>
-                  {card.label}
-                </p>
-                <p className="font-jakarta font-bold text-2xl" style={{ color: 'var(--text)' }}>
-                  {card.value}
-                </p>
-              </div>
-            </ScrollReveal>
-          ))}
+              <defs>
+                <marker
+                  id="tip"
+                  markerWidth="7"
+                  markerHeight="7"
+                  refX="5"
+                  refY="3.5"
+                  orient="auto"
+                >
+                  <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="rgba(193,154,107,0.55)" />
+                </marker>
+              </defs>
+              {arrows.map((arrow, i) => (
+                <path
+                  key={i}
+                  d={arrow.d}
+                  stroke="rgba(193,154,107,0.4)"
+                  strokeWidth="1.5"
+                  fill="none"
+                  markerEnd="url(#tip)"
+                />
+              ))}
+            </svg>
+          )}
         </div>
       </div>
     </section>
