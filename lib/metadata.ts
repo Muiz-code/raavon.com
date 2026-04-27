@@ -1,8 +1,8 @@
 export const siteMetadata = {
-  title: 'Raavon Group — The Spirit Behind Every Brand',
+  title: 'Raavon Group — Building Ventures Across Every Industry',
   titleTemplate: '%s | Raavon Group',
   description:
-    'Raavon is a global holding company that builds software products, digital ventures, and technology brands across every industry. One spirit. Many ventures. Built for the world.',
+    'Raavon is a global holding company building software products and technology ventures across every industry. One spirit. Many ventures.',
   keywords: [
     'Raavon',
     'Raavon Group',
