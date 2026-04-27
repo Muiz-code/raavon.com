@@ -23,7 +23,7 @@ const PILLARS = [
   },
 ]
 
-interface Arrow { d: string; length: number }
+interface Arrow { d: string }
 
 function buildArrows(
   cards: (HTMLDivElement | null)[],
@@ -45,58 +45,20 @@ function buildArrows(
   if (r.some((x) => !x)) return []
   const [a, b, c, d] = r as NonNullable<(typeof r)[number]>[]
 
-  const paths = [
-    // card 0 right-center → card 1 left-center
-    `M ${a.right},${a.cy} C ${a.right + 50},${a.cy} ${b.left - 50},${b.cy} ${b.left},${b.cy}`,
-    // card 1 bottom-center → card 2 top-center (big sweep back left)
-    `M ${b.cx},${b.bottom} C ${b.cx},${b.bottom + 60} ${c.cx},${c.top - 60} ${c.cx},${c.top}`,
-    // card 2 right-center → card 3 left-center
-    `M ${c.right},${c.cy} C ${c.right + 50},${c.cy} ${d.left - 50},${d.cy} ${d.left},${d.cy}`,
+  return [
+    { d: `M ${a.right},${a.cy} C ${a.right + 40},${a.cy} ${b.left - 40},${b.cy} ${b.left},${b.cy}` },
+    { d: `M ${b.cx},${b.bottom} C ${b.cx},${b.bottom + 55} ${c.cx},${c.top - 55} ${c.cx},${c.top}` },
+    { d: `M ${c.right},${c.cy} C ${c.right + 40},${c.cy} ${d.left - 40},${d.cy} ${d.left},${d.cy}` },
   ]
-
-  return paths.map((path) => {
-    /* Approximate path length for stroke-dasharray animation */
-    const el = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-    el.setAttribute('d', path)
-    document.body.appendChild(el)
-    const len = el.getTotalLength()
-    document.body.removeChild(el)
-    return { d: path, length: len }
-  })
 }
 
-/* Draws one arrow that animates its stroke when it enters the viewport */
-function ArrowPath({ d, length }: Arrow) {
+function ArrowPath({ d }: Arrow) {
   const ref    = useRef<SVGPathElement>(null)
   const inView = useInView(ref, { once: true, margin: '-5% 0px' })
 
   return (
     <>
-      <defs>
-        <marker
-          id="tip"
-          markerWidth="9"
-          markerHeight="9"
-          refX="7"
-          refY="4.5"
-          orient="auto"
-          markerUnits="strokeWidth"
-        >
-          {/* Solid filled arrowhead */}
-          <path d="M0,1 L0,8 L8,4.5 z" fill="rgba(193,154,107,0.7)" />
-        </marker>
-      </defs>
-
-      {/* Shadow / glow layer */}
-      <path
-        d={d}
-        stroke="rgba(193,154,107,0.12)"
-        strokeWidth="6"
-        fill="none"
-        strokeLinecap="round"
-      />
-
-      {/* Animated stroke */}
+      <path d={d} stroke="rgba(193,154,107,0.1)" strokeWidth="6" fill="none" strokeLinecap="round" />
       <motion.path
         ref={ref}
         d={d}
@@ -134,39 +96,62 @@ export default function About() {
 
   return (
     <section id="about" className="px-10 py-28 md:py-36" aria-labelledby="about-heading">
-      <div className="max-w-5xl mx-auto">
-        {/* Heading */}
-        <ScrollReveal>
-          <p
-            className="font-dm text-xs tracking-[0.25em] uppercase mb-4 text-center"
-            style={{ color: '#C19A6B' }}
-          >
-            Who We Are
-          </p>
-        </ScrollReveal>
+      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_1.5fr] gap-16 md:gap-20 items-center">
 
-        <ScrollReveal delay={0.1}>
-          <h2
-            id="about-heading"
-            className="font-jakarta font-bold text-center mb-20 leading-tight"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text)' }}
-          >
-            We don&apos;t just build companies.{' '}
-            <span className="font-fraunces italic font-light" style={{ color: '#C19A6B' }}>
-              We build legacies.
-            </span>
-          </h2>
-        </ScrollReveal>
+        {/* Left — text */}
+        <div>
+          <ScrollReveal>
+            <p
+              className="font-dm text-xs tracking-[0.25em] uppercase mb-5"
+              style={{ color: '#C19A6B' }}
+            >
+              Who We Are
+            </p>
+          </ScrollReveal>
 
-        {/* Staggered cards */}
-        <div ref={containerRef} className="relative pb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+          <ScrollReveal delay={0.1}>
+            <h2
+              id="about-heading"
+              className="font-jakarta font-bold leading-tight mb-7"
+              style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)', color: 'var(--text)' }}
+            >
+              We don&apos;t just build companies.{' '}
+              <span className="font-fraunces italic font-light" style={{ color: '#C19A6B' }}>
+                We build legacies.
+              </span>
+            </h2>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.2}>
+            <p
+              className="font-dm leading-relaxed mb-6"
+              style={{ color: 'var(--muted)', fontSize: '1.05rem' }}
+            >
+              Raavon is a global holding company built to bring ambitious ideas to life.
+              We are not a consultancy. Not an agency. We are builders.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.28}>
+            <p
+              className="font-dm leading-relaxed"
+              style={{ color: 'var(--muted)', fontSize: '1.05rem' }}
+            >
+              Every venture that carries the Raavon name is built with the same obsession:
+              quality that makes people feel it was made specifically for them.
+            </p>
+          </ScrollReveal>
+        </div>
+
+        {/* Right — staggered cards */}
+        <div ref={containerRef} className="relative pb-16">
+          <div className="grid grid-cols-2 gap-4 md:gap-6">
             {PILLARS.map((pillar, i) => {
               const yClass = [
                 '',
-                'md:[transform:translateY(80px)]',
+                'md:[transform:translateY(60px)]',
                 '',
-                'md:[transform:translateY(64px)]',
+                'md:[transform:translateY(48px)]',
               ][i]
 
               return (
@@ -177,21 +162,21 @@ export default function About() {
                 >
                   <ScrollReveal delay={i * 0.12}>
                     <div
-                      className="p-8 md:p-10 rounded-2xl"
+                      className="p-6 md:p-7 rounded-2xl h-full"
                       style={{
                         background: 'var(--card)',
                         border: '1px solid var(--border)',
                       }}
                     >
                       <h3
-                        className="font-jakarta font-bold text-xl mb-4 text-center"
+                        className="font-jakarta font-bold text-base mb-3 text-center"
                         style={{ color: 'var(--text)' }}
                       >
                         {pillar.title}
                       </h3>
                       <p
-                        className="font-dm text-sm leading-relaxed text-center mx-auto"
-                        style={{ color: 'var(--muted)', maxWidth: '28ch' }}
+                        className="font-dm text-xs leading-relaxed text-center mx-auto"
+                        style={{ color: 'var(--muted)' }}
                       >
                         {pillar.body}
                       </p>
@@ -202,7 +187,7 @@ export default function About() {
             })}
           </div>
 
-          {/* Animated arrows — desktop only */}
+          {/* Animated arrows */}
           {arrows.length > 0 && (
             <svg
               aria-hidden="true"
@@ -210,12 +195,18 @@ export default function About() {
               width="100%"
               height={svgHeight}
             >
+              <defs>
+                <marker id="tip" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,1 L0,8 L8,4.5 z" fill="rgba(193,154,107,0.7)" />
+                </marker>
+              </defs>
               {arrows.map((arrow, i) => (
                 <ArrowPath key={i} {...arrow} />
               ))}
             </svg>
           )}
         </div>
+
       </div>
     </section>
   )
