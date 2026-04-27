@@ -25,7 +25,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-10"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-10 "
       aria-label="Hero"
       style={{
         backgroundImage: "url('/herobg.jpg')",
@@ -42,7 +42,7 @@ export default function Hero() {
       />
 
       {/* Ambient orbs */}
-      <div
+      {/* <div
         aria-hidden="true"
         className="pointer-events-none absolute"
         style={{
@@ -71,10 +71,10 @@ export default function Hero() {
           animation: "drift 18s ease-in-out infinite alternate",
           filter: "blur(90px)",
         }}
-      />
+      /> */}
 
       {/* Centered content */}
-      <div className="relative z-10 flex flex-col items-start text-left md:items-center md:text-center px-10 max-w-5xl mx-auto">
+      <div className="relative z-10 flex flex-col items-start md:items-center text-start md:text-center px-10 pr-4 mx-auto">
         {/* Pill badge */}
         <ScrollReveal>
           <div className="inline-flex items-center mb-15">
@@ -93,7 +93,7 @@ export default function Hero() {
         </ScrollReveal>
 
         <h1
-          className="font-jakarta font-extrabold leading-[1.2] mb-8 w-screen"
+          className="font-jakarta font-extrabold leading-[1.2] mb-8 w-full text-start md:text-center"
           style={{ fontSize: "clamp(3.5rem, 9vw, 9rem)", color: "var(--text)" }}
         >
           <ScrollReveal delay={0.05}>
@@ -144,7 +144,7 @@ export default function Hero() {
 
         <ScrollReveal delay={0.35}>
           <p
-            className="font-dm text-base md:text-lg w-full mb-12 leading-relaxed p-5"
+            className="font-dm text-base md:text-lg w-full mb-12 leading-relaxed"
             style={{ color: "var(--text)" }}
           >
             One holding company. Many products. Built for the world.
@@ -152,7 +152,7 @@ export default function Hero() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.45}>
-          <div className="flex flex-wrap items-center justify-start md:justify-center gap-6 mb-20">
+          <div className="flex flex-wrap items-center justify-center gap-6 mb-20">
             <a href="#products" className="btn-primary font-dm">
               Our Products
               <ArrowRight size={15} aria-hidden="true" />
@@ -169,9 +169,9 @@ export default function Hero() {
         </ScrollReveal>
 
         {/* Inline stats */}
-        <ScrollReveal delay={0.55}>
+        <ScrollReveal delay={0.55} className="w-full">
           <div
-            className="flex flex-wrap justify-start md:justify-center gap-10 pt-8"
+            className="flex flex-wrap justify-center gap-10 pt-8"
             style={{ borderTop: "1px solid var(--border)" }}
           >
             {[

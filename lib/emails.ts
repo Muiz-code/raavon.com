@@ -1,5 +1,4 @@
-const ICON_B64 =
-  "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";
+const LOGO_URL = "https://raavon.com/raavon-icon-dark.png";
 
 /* ── Shared wrapper ───────────────────────────────────────────────── */
 export const wrapper = (content: string) => `
@@ -43,7 +42,7 @@ export const wrapper = (content: string) => `
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin-bottom:36px;">
               <tr>
                 <td style="vertical-align:middle; padding-right:14px;">
-                  <img src="data:image/png;base64,${ICON_B64}"
+                  <img src="${LOGO_URL}"
                        alt="R" width="48" height="48"
                        style="display:block; width:48px; height:48px; border:0;" />
                 </td>
@@ -67,7 +66,7 @@ export const wrapper = (content: string) => `
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr><td align="center" style="padding-bottom:8px;">
                 <p style="font-family:Arial,sans-serif; font-size:11px; color:rgba(250,247,242,0.2); letter-spacing:3px; text-transform:uppercase; margin:0;">
-                  RAAVON GROUP &nbsp;&middot;&nbsp; RAAVON.COM
+                  RAAVON LIMITED &nbsp;&middot;&nbsp; RAAVON.COM
                 </p>
               </td></tr>
               <tr><td align="center">

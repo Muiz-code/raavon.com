@@ -154,7 +154,7 @@ export default function About() {
 
         {/* Right — staggered cards */}
         <div ref={containerRef} className="relative pb-16">
-          <div className="grid grid-cols-2 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 gap-4 md:gap-6 items-stretch">
             {PILLARS.map((pillar, i) => {
               const yClass = [
                 '',
@@ -166,10 +166,10 @@ export default function About() {
               return (
                 <div
                   key={pillar.title}
-                  className={yClass}
+                  className={`h-full ${yClass}`}
                   ref={(el) => { cardRefs.current[i] = el }}
                 >
-                  <ScrollReveal delay={i * 0.12}>
+                  <ScrollReveal delay={i * 0.12} className="h-full">
                     <div
                       className="p-6 md:p-7 rounded-2xl h-full"
                       style={{
