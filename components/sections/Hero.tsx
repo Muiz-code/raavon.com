@@ -27,7 +27,20 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-10"
       aria-label="Hero"
+      style={{
+        backgroundImage: "url('/herobg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
+      {/* Dark overlay so text stays legible */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{ background: "rgba(10,10,8,0.72)" }}
+      />
+
       {/* Ambient orbs */}
       <div
         aria-hidden="true"
