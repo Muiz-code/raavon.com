@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, DM_Sans, Fraunces } from 'next/font/google'
 import './globals.css'
 import { siteMetadata } from '@/lib/metadata'
 import Providers from '@/context/ThemeContext'
+import { ToastProvider } from '@/context/ToastContext'
 import Loader from '@/components/ui/Loader'
 import Cursor from '@/components/ui/Cursor'
 import ScrollProgress from '@/components/ui/ScrollProgress'
@@ -137,11 +138,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Providers>
-          <Loader />
-          <Cursor />
-          <ScrollProgress />
-          <NewsletterPopup />
-          {children}
+          <ToastProvider>
+            <Loader />
+            <Cursor />
+            <ScrollProgress />
+            <NewsletterPopup />
+            {children}
+          </ToastProvider>
         </Providers>
       </body>
     </html>

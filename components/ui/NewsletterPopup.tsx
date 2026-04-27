@@ -25,13 +25,22 @@ export default function NewsletterPopup() {
     setVisible(false)
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!email) return
-    /* Replace with real API call when backend is ready */
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      if (!res.ok) throw new Error()
+    } catch {
+      /* still dismiss gracefully on error */
+    }
     localStorage.setItem(STORAGE_KEY, '1')
     setStatus('sent')
-    setTimeout(() => setVisible(false), 2000)
+    setTimeout(() => setVisible(false), 2200)
   }
 
   if (!visible) return null
