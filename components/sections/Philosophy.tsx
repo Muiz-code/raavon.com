@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 
 export default function Philosophy() {
@@ -103,13 +105,8 @@ export default function Philosophy() {
             transform: 'rotate(1deg)',
           }}
         >
-          <Image src="/mood-1.jpg" alt="" fill style={{ objectFit: 'cover', objectPosition: 'top right' }}
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
-          />
-          <div style={{ position: 'absolute', inset: 0, background: 'var(--card)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Image src="/herobg.jpg" alt="" fill style={{ objectFit: 'cover', objectPosition: '80% 20%' }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,8,6,0.45)' }} />
-          </div>
+          <Image src="/herobg.jpg" alt="" fill style={{ objectFit: 'cover', objectPosition: '80% 20%' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,8,6,0.45)' }} />
         </div>
 
         {/* 4 — mahogany swatch tall */}
