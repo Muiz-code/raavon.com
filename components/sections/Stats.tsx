@@ -31,7 +31,7 @@ export default function Stats() {
   return (
     <section
       aria-label="Key statistics"
-      className="px-6 md:px-12 py-20 md:py-24"
+      className="px-10 py-20 md:py-24"
       style={{ background: '#111009' }}
     >
       <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">

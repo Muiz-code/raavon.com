@@ -4,7 +4,7 @@ export default function Philosophy() {
   return (
     <section
       id="philosophy"
-      className="relative px-6 md:px-12 py-36 md:py-48 flex items-center justify-center overflow-hidden text-center"
+      className="relative px-10 py-36 md:py-48 flex items-center justify-center overflow-hidden text-center"
       aria-label="Philosophy"
     >
       {/* Ghost watermark */}

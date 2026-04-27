@@ -12,7 +12,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="px-6 md:px-12 py-28 md:py-36"
+      className="px-10 py-28 md:py-36"
       aria-labelledby="about-heading"
     >
       <div className="max-w-6xl mx-auto">

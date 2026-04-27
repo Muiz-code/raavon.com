@@ -6,7 +6,7 @@ export default function Ventures() {
   return (
     <section
       id="ventures"
-      className="px-6 md:px-12 py-28 md:py-36"
+      className="px-10 py-28 md:py-36"
       style={{ background: 'var(--surface)' }}
       aria-labelledby="ventures-heading"
     >

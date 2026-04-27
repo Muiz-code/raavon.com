@@ -61,7 +61,7 @@ export default function Hero() {
       />
 
       {/* Centered content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto">
+      <div className="relative z-10 flex flex-col items-center text-center px-10 max-w-5xl mx-auto">
         {/* Pill badge */}
         <ScrollReveal>
           <div className="inline-flex items-center mb-15">
@@ -85,18 +85,30 @@ export default function Hero() {
         >
           <ScrollReveal delay={0.05}>
             <span>We bring </span>
+            {/* Fixed-width container prevents layout shift when word length changes */}
             <span
               className="font-fraunces italic font-light"
               style={{
                 color: "#C19A6B",
                 fontSize: "clamp(3.8rem, 9.5vw, 9.8rem)",
-                display: "inline-block",
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(-10px)",
-                transition: "opacity 0.32s ease, transform 0.32s ease",
+                display: "inline-grid",
+                verticalAlign: "bottom",
               }}
             >
-              {WORDS[index]}
+              {/* Invisible longest word holds the width */}
+              <span style={{ visibility: "hidden", gridArea: "1/1" }}>ventures</span>
+              {/* Animated word overlaid on top */}
+              <span
+                style={{
+                  gridArea: "1/1",
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? "translateY(0)" : "translateY(-10px)",
+                  transition: "opacity 0.32s ease, transform 0.32s ease",
+                  textAlign: "center",
+                }}
+              >
+                {WORDS[index]}
+              </span>
             </span>
           </ScrollReveal>
 
