@@ -10,16 +10,16 @@ const PILLARS = [
     body: 'A global holding company built to bring ambitious ideas to life across industries and continents.',
   },
   {
-    title: 'Our Ventures',
-    body: 'Spanning fintech, fashion, digital infrastructure, and AI — each venture built to define its category.',
+    title: 'Our Products',
+    body: 'Spanning fintech, fashion, digital infrastructure, and AI — each product built to define its category.',
   },
   {
     title: 'How We Build',
-    body: "We don't consult. We embed, build with obsession, and deliver ventures that stand on their own.",
+    body: "We don't consult. We embed, build with obsession, and deliver products that stand on their own.",
   },
   {
     title: 'Our Legacy',
-    body: 'The greatest ideas are not invented — they are revealed. Every Raavon venture is built to outlast trends.',
+    body: 'The greatest ideas are not invented — they are revealed. Every Raavon product is built to outlast trends.',
   },
 ]
 
@@ -146,7 +146,7 @@ export default function About() {
               className="font-dm leading-relaxed"
               style={{ color: 'var(--muted)', fontSize: '1.05rem' }}
             >
-              Every venture that carries the Raavon name is built with the same obsession:
+              Every product that carries the Raavon name is built with the same obsession:
               quality that makes people feel it was made specifically for them.
             </p>
           </ScrollReveal>

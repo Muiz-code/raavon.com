@@ -1,6 +1,6 @@
 export const NAV_LEFT = [
   { label: 'About', href: '#about' },
-  { label: 'What We Do', href: '#ventures' },
+  { label: 'What We Do', href: '#products' },
 ]
 
 export const NAV_RIGHT = [
@@ -16,7 +16,7 @@ export const MARQUEE_PHRASES = [
   'Ideas Made Real',
   'Built to Last',
   'One Spirit',
-  'Many Ventures',
+  'Many Products',
   'Born with Purpose',
   'Built for the World',
   'We Build Legacies',
@@ -31,10 +31,10 @@ export const STAT_CARDS = [
   { label: 'Active', value: 'Building' },
 ]
 
-export const VENTURES = [
+export const PRODUCTS = [
   {
     tag: 'Fintech · AI · Personal Finance',
-    name: 'Venture 01',
+    name: 'Product 01',
     description:
       'An AI-powered Personal Finance Management platform. Unified accounts. Intelligent tracking. Real savings.',
     status: 'In Development',
@@ -42,14 +42,14 @@ export const VENTURES = [
   },
   {
     tag: 'Fashion · Culture · Identity',
-    name: 'Venture 02',
+    name: 'Product 02',
     description: 'Coming Soon',
     status: 'In Conception',
     active: false,
   },
   {
     tag: 'Technology · Tools · Infrastructure',
-    name: 'Venture 03',
+    name: 'Product 03',
     description: 'Coming Soon',
     status: 'In Conception',
     active: false,

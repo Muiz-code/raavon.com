@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 
-interface VentureCardProps {
+interface ProductCardProps {
   name: string
   description: string
   status: string
@@ -8,9 +8,8 @@ interface VentureCardProps {
   icon: React.ElementType
 }
 
-export default function VentureCard({ name, description, status, active, icon: Icon }: VentureCardProps) {
+export default function ProductCard({ name, description, status, active, icon: Icon }: ProductCardProps) {
   return (
-    /* Outer wrapper gives room for the floating icon above the card */
     <div className="relative mt-10 h-full">
 
       {/* Floating icon badge */}

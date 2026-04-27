@@ -134,11 +134,11 @@ body::after {
 .btn-primary:hover { color: #0A0A0A; }
 
 /* ─── Venture card border-slide ──────────────────────────── */
-.venture-card {
+.product-card {
   position: relative;
   overflow: hidden;
 }
-.venture-card::before {
+.product-card::before {
   content: '';
   position: absolute;
   left: 0;
@@ -148,7 +148,7 @@ body::after {
   background: #C19A6B;
   transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.venture-card:hover::before { top: 0; }
+.product-card:hover::before { top: 0; }
 
 /* ─── Navbar scrolled state ─────────────────────────────── */
 .navbar-scrolled {

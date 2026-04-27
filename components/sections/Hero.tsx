@@ -109,7 +109,9 @@ export default function Hero() {
               }}
             >
               {/* Invisible longest word holds the width */}
-              <span style={{ visibility: "hidden", gridArea: "1/1" }}>ventures</span>
+              <span style={{ visibility: "hidden", gridArea: "1/1" }}>
+                ventures
+              </span>
               {/* Animated word overlaid on top */}
               <span
                 style={{
@@ -117,7 +119,7 @@ export default function Hero() {
                   opacity: visible ? 1 : 0,
                   transform: visible ? "translateY(0)" : "translateY(-10px)",
                   transition: "opacity 0.32s ease, transform 0.32s ease",
-                  textAlign: "center",
+                  textAlign: "start",
                 }}
               >
                 {WORDS[index]}
@@ -142,17 +144,17 @@ export default function Hero() {
 
         <ScrollReveal delay={0.35}>
           <p
-            className="font-dm text-base md:text-lg max-w-md mb-12 leading-relaxed"
-            style={{ color: "var(--muted)" }}
+            className="font-dm text-base md:text-lg w-full mb-12 leading-relaxed p-5"
+            style={{ color: "var(--text)" }}
           >
-            One holding company. Many ventures. Built for the world.
+            One holding company. Many products. Built for the world.
           </p>
         </ScrollReveal>
 
         <ScrollReveal delay={0.45}>
           <div className="flex flex-wrap items-center justify-center gap-6 mb-20">
-            <a href="#ventures" className="btn-primary font-dm">
-              Our Ventures
+            <a href="#products" className="btn-primary font-dm">
+              Our Products
               <ArrowRight size={15} aria-hidden="true" />
             </a>
             <a
