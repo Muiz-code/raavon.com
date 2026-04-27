@@ -71,7 +71,6 @@ function ArrowPath({ d }: Arrow) {
         strokeWidth="1.8"
         fill="none"
         strokeLinecap="round"
-        markerEnd="url(#tip)"
         initial={{ pathLength: 0, opacity: 0 }}
         animate={inView ? { pathLength: 1, opacity: 1 } : {}}
         transition={{ duration: 1.1, ease: [0.4, 0, 0.2, 1], delay: 0.2 }}
@@ -206,11 +205,6 @@ export default function About() {
               width="100%"
               height={svgHeight}
             >
-              <defs>
-                <marker id="tip" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,1 L0,8 L8,4.5 z" fill="rgba(193,154,107,0.7)" />
-                </marker>
-              </defs>
               {arrows.map((arrow, i) => (
                 <ArrowPath key={i} {...arrow} />
               ))}
