@@ -45,10 +45,15 @@ function buildArrows(
   if (r.some((x) => !x)) return []
   const [a, b, c, d] = r as NonNullable<(typeof r)[number]>[]
 
+  // Control offsets scale with actual distance so curves never overshoot
+  const hGap  = Math.max((b.left - a.right) * 0.4, 20)
+  const vGap1 = Math.max((c.top  - b.bottom) * 0.45, 24)
+  const hGap2 = Math.max((d.left - c.right) * 0.4, 20)
+
   return [
-    { d: `M ${a.right},${a.cy} C ${a.right + 40},${a.cy} ${b.left - 40},${b.cy} ${b.left},${b.cy}` },
-    { d: `M ${b.cx},${b.bottom} C ${b.cx},${b.bottom + 55} ${c.cx},${c.top - 55} ${c.cx},${c.top}` },
-    { d: `M ${c.right},${c.cy} C ${c.right + 40},${c.cy} ${d.left - 40},${d.cy} ${d.left},${d.cy}` },
+    { d: `M ${a.right},${a.cy} C ${a.right + hGap},${a.cy} ${b.left - hGap},${b.cy} ${b.left},${b.cy}` },
+    { d: `M ${b.cx},${b.bottom} C ${b.cx},${b.bottom + vGap1} ${c.cx},${c.top - vGap1} ${c.cx},${c.top}` },
+    { d: `M ${c.right},${c.cy} C ${c.right + hGap2},${c.cy} ${d.left - hGap2},${d.cy} ${d.left},${d.cy}` },
   ]
 }
 
@@ -82,10 +87,15 @@ export default function About() {
   const [svgHeight, setSvgHeight] = useState(0)
 
   const measure = useCallback(() => {
-    const el = containerRef.current
-    if (!el || window.innerWidth < 768) { setArrows([]); return }
-    setArrows(buildArrows(cardRefs.current, el))
-    setSvgHeight(el.offsetHeight)
+    // Double rAF ensures CSS transforms have settled before measuring
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = containerRef.current
+        if (!el || window.innerWidth < 768) { setArrows([]); return }
+        setArrows(buildArrows(cardRefs.current, el))
+        setSvgHeight(el.offsetHeight)
+      })
+    })
   }, [])
 
   useEffect(() => {
@@ -191,7 +201,8 @@ export default function About() {
           {arrows.length > 0 && (
             <svg
               aria-hidden="true"
-              className="absolute top-0 left-0 pointer-events-none overflow-visible hidden md:block"
+              className="absolute top-0 left-0 pointer-events-none hidden md:block"
+              style={{ overflow: 'visible', clipPath: 'inset(0 -2px)' }}
               width="100%"
               height={svgHeight}
             >
