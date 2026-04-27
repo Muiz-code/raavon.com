@@ -74,7 +74,7 @@ export default function Hero() {
       />
 
       {/* Centered content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-10 max-w-5xl mx-auto">
+      <div className="relative z-10 flex flex-col items-start text-left md:items-center md:text-center px-10 max-w-5xl mx-auto">
         {/* Pill badge */}
         <ScrollReveal>
           <div className="inline-flex items-center mb-15">
@@ -152,7 +152,7 @@ export default function Hero() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.45}>
-          <div className="flex flex-wrap items-center justify-center gap-6 mb-20">
+          <div className="flex flex-wrap items-center justify-start md:justify-center gap-6 mb-20">
             <a href="#products" className="btn-primary font-dm">
               Our Products
               <ArrowRight size={15} aria-hidden="true" />
@@ -171,7 +171,7 @@ export default function Hero() {
         {/* Inline stats */}
         <ScrollReveal delay={0.55}>
           <div
-            className="flex flex-wrap justify-center gap-10 pt-8"
+            className="flex flex-wrap justify-start md:justify-center gap-10 pt-8"
             style={{ borderTop: "1px solid var(--border)" }}
           >
             {[
