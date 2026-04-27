@@ -119,7 +119,7 @@ export default function Philosophy() {
           }}
         >
           <Image
-            src="/mood-2.jpeg"
+            src="/mood-1.jpeg"
             alt=""
             fill
             style={{ objectFit: "cover", objectPosition: "80% 20%" }}
@@ -332,7 +332,7 @@ export default function Philosophy() {
           </span>
         </div>
 
-        {/* 11 — image tall (mood-2 slot) */}
+        {/* 11 — image tall (mood-2) */}
         <div
           style={{
             gridColumn: "span 1",
@@ -344,7 +344,7 @@ export default function Philosophy() {
           }}
         >
           <Image
-            src="/herobg.jpg"
+            src="/mood-2.jpeg"
             alt=""
             fill
             style={{ objectFit: "cover", objectPosition: "30% 40%" }}
