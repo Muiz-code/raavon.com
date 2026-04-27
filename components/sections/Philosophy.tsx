@@ -253,7 +253,7 @@ export default function Philosophy() {
           }}
         >
           <Image
-            src="/herobg.jpg"
+            src="/mood-3.jpeg"
             alt=""
             fill
             style={{ objectFit: "cover", objectPosition: "50% 70%" }}
