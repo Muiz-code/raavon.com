@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Logo from "@/components/ui/Logo";
@@ -10,6 +11,8 @@ import { NAV_LEFT, NAV_RIGHT, NAV_ALL } from "@/lib/constants";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -27,14 +30,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-300"
-        style={{
-          background: scrolled ? "rgba(10,10,10,0.88)" : "transparent",
-          backdropFilter: scrolled ? "blur(14px)" : "none",
-          borderBottom: scrolled
-            ? "1px solid var(--border)"
-            : "1px solid transparent",
-        }}
+        className={`fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-300 ${scrolled ? "navbar-scrolled" : "border-b border-transparent"}`}
       >
         {/* Desktop — three-column: left nav | center logo | right nav */}
         <div className="hidden md:grid grid-cols-3 items-center h-full px-10">
@@ -127,11 +123,11 @@ export default function Navbar() {
       {/* Mobile full-screen overlay */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-[100] flex flex-col"
-          style={{ background: "#0A0A0A" }}
+          className="fixed inset-0 z-100 flex flex-col"
+          style={{ background: "var(--bg)" }}
         >
           <div className="flex items-center justify-between px-6 h-16">
-            <Logo size="sm" />
+            <Logo size="sm" variant="light" />
             <button
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"

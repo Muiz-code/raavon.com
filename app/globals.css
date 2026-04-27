@@ -53,6 +53,13 @@
   box-sizing: border-box;
 }
 
+/* Restore native cursor + hide custom cursor on touch/hover-none devices */
+@media (hover: none) {
+  *, *::before, *::after { cursor: auto; }
+  a, button { cursor: pointer; }
+  [data-cursor] { display: none !important; }
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -142,6 +149,14 @@ body::after {
   transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .venture-card:hover::before { top: 0; }
+
+/* ─── Navbar scrolled state ─────────────────────────────── */
+.navbar-scrolled {
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
 
 /* ─── Nav link underline ─────────────────────────────────── */
 .nav-link {

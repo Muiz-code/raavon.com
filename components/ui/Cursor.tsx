@@ -10,6 +10,9 @@ export default function Cursor() {
   const rafRef = useRef<number>(0)
 
   useEffect(() => {
+    /* Skip on touch/hover-none devices (phones, tablets) */
+    if (window.matchMedia('(hover: none)').matches) return
+
     const dot = dotRef.current
     const ring = ringRef.current
     if (!dot || !ring) return
@@ -70,6 +73,7 @@ export default function Cursor() {
       <div
         ref={dotRef}
         aria-hidden="true"
+        data-cursor="dot"
         style={{
           position: 'fixed',
           width: '8px',
@@ -89,6 +93,7 @@ export default function Cursor() {
       <div
         ref={ringRef}
         aria-hidden="true"
+        data-cursor="ring"
         style={{
           position: 'fixed',
           width: '36px',
