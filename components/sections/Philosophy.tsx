@@ -256,7 +256,7 @@ export default function Philosophy() {
             src="/mood-3.jpeg"
             alt=""
             fill
-            style={{ objectFit: "cover", objectPosition: "50% 70%" }}
+            style={{ objectFit: "cover", objectPosition: "50% 90%" }}
           />
           <div
             style={{
