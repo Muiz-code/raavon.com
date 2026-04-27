@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 h-16 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-300"
         style={{
           background: scrolled ? "rgba(10,10,10,0.88)" : "transparent",
           backdropFilter: scrolled ? "blur(14px)" : "none",
@@ -55,13 +55,13 @@ export default function Navbar() {
           {/* Center logo */}
           <div className="flex justify-center">
             <Link href="/" aria-label="Raavon home">
-              <Logo size="md" />
+              <Logo size="lg" />
             </Link>
           </div>
 
           {/* Right nav */}
           <nav
-            className="flex items-center justify-end gap-7"
+            className="flex items-center justify-end gap-6"
             aria-label="Right navigation"
           >
             {NAV_RIGHT.map((link) =>
@@ -86,6 +86,25 @@ export default function Navbar() {
               ),
             )}
             <ThemeToggle />
+            <a
+              href="#contact"
+              className="font-dm text-xs tracking-wide px-4 py-2 transition-colors duration-200"
+              style={{
+                border: "1px solid rgba(193,154,107,0.45)",
+                color: "#C19A6B",
+                borderRadius: "4px",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background =
+                  "rgba(193,154,107,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background =
+                  "transparent";
+              }}
+            >
+              Get in touch
+            </a>
           </nav>
         </div>
 

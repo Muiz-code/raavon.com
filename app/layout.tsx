@@ -5,6 +5,7 @@ import { siteMetadata } from '@/lib/metadata'
 import Providers from '@/context/ThemeContext'
 import Loader from '@/components/ui/Loader'
 import Cursor from '@/components/ui/Cursor'
+import ScrollProgress from '@/components/ui/ScrollProgress'
 import NewsletterPopup from '@/components/ui/NewsletterPopup'
 
 const jakarta = Plus_Jakarta_Sans({
@@ -30,39 +31,93 @@ const fraunces = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: siteMetadata.title,
+  metadataBase: new URL(siteMetadata.url),
+  title: {
+    default: siteMetadata.title,
+    template: siteMetadata.titleTemplate,
+  },
   description: siteMetadata.description,
   keywords: siteMetadata.keywords,
-  authors: [{ name: 'Raavon Group' }],
+  authors: [{ name: 'Raavon Group', url: siteMetadata.url }],
   creator: 'Raavon Group',
-  metadataBase: new URL(siteMetadata.url),
+  publisher: 'Raavon Group',
+  applicationName: 'Raavon',
+  category: 'Technology',
   openGraph: {
     type: 'website',
     url: siteMetadata.url,
+    siteName: 'Raavon',
+    locale: siteMetadata.locale,
     title: siteMetadata.title,
     description: siteMetadata.description,
-    images: [{ url: siteMetadata.ogImage, width: 1200, height: 630, alt: 'Raavon Group' }],
   },
   twitter: {
     card: 'summary_large_image',
+    site: siteMetadata.twitterHandle,
+    creator: siteMetadata.twitterHandle,
     title: siteMetadata.title,
     description: siteMetadata.description,
-    images: [siteMetadata.ogImage],
   },
-  robots: { index: true, follow: true },
-  alternates: { canonical: siteMetadata.url },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: siteMetadata.url,
+  },
 }
 
-const orgSchema = {
+/* ── Structured data ─────────────────────────────────────────────── */
+
+const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${siteMetadata.url}/#organization`,
   name: 'Raavon Group',
-  url: 'https://raavon.com',
-  logo: 'https://raavon.com/logo.svg',
+  legalName: 'Raavon Group',
+  url: siteMetadata.url,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteMetadata.url}/raavon-icon-dark.svg`,
+    width: 512,
+    height: 512,
+  },
   description: siteMetadata.description,
-  foundingDate: '2025',
-  foundingLocation: 'Lagos, Nigeria',
+  foundingDate: '2026',
+  foundingLocation: {
+    '@type': 'Place',
+    name: 'Lagos, Nigeria',
+    addressCountry: 'NG',
+  },
+  areaServed: 'Worldwide',
+  knowsAbout: [
+    'Software Development',
+    'Product Design',
+    'Financial Technology',
+    'Artificial Intelligence',
+    'Mobile Applications',
+    'Web Platforms',
+    'Digital Ventures',
+    'Technology Consulting',
+  ],
   sameAs: [],
+}
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteMetadata.url}/#website`,
+  url: siteMetadata.url,
+  name: 'Raavon',
+  description: siteMetadata.description,
+  publisher: { '@id': `${siteMetadata.url}/#organization` },
+  inLanguage: 'en-US',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -75,13 +130,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([organizationSchema, websiteSchema]),
+          }}
         />
       </head>
       <body>
         <Providers>
           <Loader />
           <Cursor />
+          <ScrollProgress />
           <NewsletterPopup />
           {children}
         </Providers>

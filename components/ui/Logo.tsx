@@ -1,28 +1,38 @@
-import { cn } from "@/lib/utils";
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
 
 interface LogoProps {
-  size?: "sm" | "md" | "lg";
-  className?: string;
+  size?: 'sm' | 'md' | 'lg'
+  className?: string
 }
 
-const sizes = {
-  sm: "text-xl",
-  md: "text-2xl",
-  lg: "text-4xl",
-};
+const px = { sm: 28, md: 36, lg: 52 }
 
-export default function Logo({ size = "md", className }: LogoProps) {
+export default function Logo({ size = 'md', className }: LogoProps) {
+  const dim = px[size]
+
   return (
-    <span
-      className={cn(
-        "font-jakarta font-extrabold tracking-tight uppercase",
-        sizes[size],
-        className,
-      )}
-    >
-      {/* Off-white in dark mode, caramel in light mode */}
-      <span className="logo-primary">Raa</span>
-      <span style={{ color: "#4E2C20" }}>von</span>
+    <span className={cn('inline-flex items-center', className)}>
+      {/* Light icon — shown when dark mode active */}
+      <Image
+        src="/raavon-icon-light.svg"
+        alt="Raavon"
+        width={dim}
+        height={dim}
+        priority
+        unoptimized
+        className="hidden dark:block"
+      />
+      {/* Dark icon — shown when light mode active */}
+      <Image
+        src="/raavon-icon-dark.svg"
+        alt="Raavon"
+        width={dim}
+        height={dim}
+        priority
+        unoptimized
+        className="block dark:hidden"
+      />
     </span>
-  );
+  )
 }

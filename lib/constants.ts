@@ -15,41 +15,42 @@ export const NAV_ALL = [...NAV_LEFT, ...NAV_RIGHT]
 export const MARQUEE_PHRASES = [
   'Ideas Made Real',
   'Built to Last',
-  'We Ship Things That Matter',
-  'Born in Nigeria',
+  'One Spirit',
+  'Many Ventures',
+  'Born with Purpose',
   'Built for the World',
-  'We Build Products',
-  'Start With a Problem',
-  'Ideas Made Real',
+  'We Build Legacies',
+  'From Idea to Empire',
+  'The Spirit Behind Every Brand',
 ]
 
 export const STAT_CARDS = [
-  { label: 'Founded', value: '2025' },
+  { label: 'Founded', value: '2026' },
   { label: 'Industries', value: 'Unlimited' },
-  { label: 'Origin', value: 'Nigeria 🇳🇬' },
-  { label: 'Reach', value: 'Global 🌍' },
+  { label: 'Reach', value: 'Global' },
+  { label: 'Active', value: 'Building' },
 ]
 
 export const VENTURES = [
   {
     tag: 'Fintech · AI · Personal Finance',
-    name: 'Kairo',
+    name: 'Venture 01',
     description:
-      "Nigeria's first AI-powered Personal Finance Management app. Connect all your bank accounts, track spending with AI, automate savings, and pay bills — all in one place.",
+      'An AI-powered Personal Finance Management platform. Unified accounts. Intelligent tracking. Real savings.',
     status: 'In Development',
     active: true,
   },
   {
-    tag: 'Coming Soon',
-    name: 'Coming Soon',
-    description: 'Something is being built. We will tell you when it is ready.',
+    tag: 'Fashion · Culture · Identity',
+    name: 'Venture 02',
+    description: 'Coming Soon',
     status: 'In Conception',
     active: false,
   },
   {
-    tag: 'Coming Soon',
-    name: 'Coming Soon',
-    description: 'Something is being built. We will tell you when it is ready.',
+    tag: 'Technology · Tools · Infrastructure',
+    name: 'Venture 03',
+    description: 'Coming Soon',
     status: 'In Conception',
     active: false,
   },

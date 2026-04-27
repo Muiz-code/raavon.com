@@ -1,25 +1,63 @@
 import Logo from '@/components/ui/Logo'
 
+const NAV_LINKS = [
+  { label: 'About', href: '#about' },
+  { label: 'Ventures', href: '#ventures' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '#contact' },
+]
+
 export default function Footer() {
   return (
     <footer
-      className="relative px-6 md:px-12 py-10"
-      style={{
-        borderTop: '1px solid',
-        borderImageSource: 'linear-gradient(90deg, transparent, #C19A6B, transparent)',
-        borderImageSlice: 1,
-      }}
+      style={{ background: '#080806' }}
     >
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-        <Logo size="md" />
+      {/* Caramel gradient rule */}
+      <div
+        aria-hidden="true"
+        style={{
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent, #C19A6B, transparent)',
+        }}
+      />
 
-        <p className="font-fraunces italic text-sm" style={{ color: '#D2B48C' }}>
-          The spirit behind every brand.
-        </p>
+      <div className="max-w-6xl mx-auto px-6 md:px-12 py-14 grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
 
-        <p className="font-dm text-xs" style={{ color: 'var(--muted)' }}>
-          © 2025 Raavon Group. All rights reserved.
-        </p>
+        {/* Left — logo + tagline */}
+        <div className="flex flex-col gap-4">
+          <Logo size="md" />
+          <p
+            className="font-fraunces italic text-sm leading-relaxed"
+            style={{ color: '#D2B48C' }}
+          >
+            The spirit behind every brand.
+          </p>
+        </div>
+
+        {/* Center — nav links */}
+        <nav aria-label="Footer navigation" className="flex flex-col gap-3 md:items-center">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="font-dm text-sm hover:text-caramel transition-colors duration-200"
+              style={{ color: 'var(--muted)' }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        {/* Right — copyright */}
+        <div className="flex flex-col gap-3 md:items-end">
+          <p className="font-dm text-xs" style={{ color: 'var(--muted)' }}>
+            © 2026 Raavon Group. All rights reserved.
+          </p>
+          <p className="font-dm text-xs" style={{ color: 'rgba(250,247,242,0.2)' }}>
+            raavon.com
+          </p>
+        </div>
+
       </div>
     </footer>
   )

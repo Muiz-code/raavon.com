@@ -23,7 +23,14 @@ export default function Ventures() {
             className="font-jakarta font-bold mb-14"
             style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text)' }}
           >
-            Ideas given form.
+            Every brand begins
+            <br />
+            <span
+              className="font-fraunces italic font-light"
+              style={{ color: '#C19A6B' }}
+            >
+              with one idea.
+            </span>
           </h2>
         </ScrollReveal>
 
@@ -40,6 +47,17 @@ export default function Ventures() {
             </ScrollReveal>
           ))}
         </div>
+
+        {/* Empire statement */}
+        <ScrollReveal delay={0.4}>
+          <p
+            className="font-fraunces italic text-center mt-16 mx-auto max-w-2xl leading-relaxed"
+            style={{ color: '#D2B48C', fontSize: 'clamp(1rem, 2vw, 1.2rem)' }}
+          >
+            &ldquo;Raavon is the studio. Each venture proves the model.
+            Together they build the empire.&rdquo;
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   )

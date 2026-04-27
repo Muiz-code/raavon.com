@@ -1,15 +1,28 @@
 import { ArrowRight } from 'lucide-react'
-import Image from 'next/image'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
       aria-label="Hero"
     >
-      {/* Subtle left-side ambient glow */}
+      {/* Ambient orbs */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute"
+        style={{
+          width: 'clamp(400px, 55vw, 800px)',
+          height: 'clamp(400px, 55vw, 800px)',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(78,44,32,0.14) 0%, transparent 70%)',
+          bottom: '-10%',
+          left: '-15%',
+          animation: 'drift-reverse 22s ease-in-out infinite alternate',
+          filter: 'blur(80px)',
+        }}
+      />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute"
@@ -17,121 +30,138 @@ export default function Hero() {
           width: 'clamp(300px, 40vw, 600px)',
           height: 'clamp(300px, 40vw, 600px)',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(78,44,32,0.18) 0%, transparent 70%)',
-          bottom: '5%',
-          left: '-10%',
-          animation: 'drift-reverse 20s ease-in-out infinite alternate',
-          filter: 'blur(70px)',
+          background: 'radial-gradient(circle, rgba(193,154,107,0.07) 0%, transparent 70%)',
+          top: '-5%',
+          right: '-10%',
+          animation: 'drift 18s ease-in-out infinite alternate',
+          filter: 'blur(90px)',
         }}
       />
 
-      {/* Two-column grid */}
-      <div className="max-w-7xl mx-auto w-full grid md:grid-cols-[1fr_480px] lg:grid-cols-[1fr_560px] min-h-screen">
+      {/* Centered content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto">
 
-        {/* ── Left — text content ── */}
-        <div className="flex flex-col justify-center px-6 md:pl-12 md:pr-10 pt-28 pb-20 relative z-10">
-          <ScrollReveal>
-            <p
-              className="font-dm text-xs tracking-[0.25em] uppercase mb-10"
-              style={{ color: '#C19A6B' }}
+        {/* Pill badge */}
+        <ScrollReveal>
+          <div className="inline-flex items-center mb-10">
+            <span
+              className="font-dm text-xs tracking-[0.2em] uppercase px-4 py-1.5"
+              style={{
+                border: '1px solid rgba(193,154,107,0.45)',
+                color: '#C19A6B',
+                background: 'rgba(193,154,107,0.06)',
+                borderRadius: '999px',
+              }}
             >
-              Raavon Group — Est. 2025
-            </p>
+              Raavon Group &nbsp;·&nbsp; Est. 2026
+            </span>
+          </div>
+        </ScrollReveal>
+
+        <h1
+          className="font-jakarta font-extrabold leading-[0.9] mb-8"
+          style={{ fontSize: 'clamp(3.5rem, 9vw, 9rem)', color: 'var(--text)' }}
+        >
+          <ScrollReveal delay={0.05}>
+            <span className="block">We bring</span>
           </ScrollReveal>
+          <ScrollReveal delay={0.15}>
+            <span
+              className="block font-fraunces italic font-light"
+              style={{ color: '#C19A6B', fontSize: 'clamp(3.8rem, 9.5vw, 9.8rem)' }}
+            >
+              ideas
+            </span>
+          </ScrollReveal>
+          <ScrollReveal delay={0.25}>
+            <span className="block">to life.</span>
+          </ScrollReveal>
+        </h1>
 
-          <h1
-            className="font-jakarta font-extrabold leading-[0.9] mb-8"
-            style={{ fontSize: 'clamp(3rem, 7vw, 7.5rem)', color: 'var(--text)' }}
+        <ScrollReveal delay={0.35}>
+          <p
+            className="font-dm text-base md:text-lg max-w-md mb-12 leading-relaxed"
+            style={{ color: 'var(--muted)' }}
           >
-            <ScrollReveal delay={0.05}>
-              <span className="block">We bring</span>
-            </ScrollReveal>
-            <ScrollReveal delay={0.15}>
-              <span
-                className="block font-fraunces italic font-light"
-                style={{ color: '#C19A6B', fontSize: 'clamp(3.3rem, 7.8vw, 8.2rem)' }}
-              >
-                ideas
-              </span>
-            </ScrollReveal>
-            <ScrollReveal delay={0.25}>
-              <span className="block">to life.</span>
-            </ScrollReveal>
-          </h1>
+            One holding company. Many ventures. Built for the world.
+          </p>
+        </ScrollReveal>
 
-          <ScrollReveal delay={0.35}>
-            <p
-              className="font-dm text-base md:text-lg max-w-md mb-12 leading-relaxed"
+        <ScrollReveal delay={0.45}>
+          <div className="flex flex-wrap items-center justify-center gap-6 mb-20">
+            <a href="#ventures" className="btn-primary font-dm">
+              Our Ventures
+              <ArrowRight size={15} aria-hidden="true" />
+            </a>
+            <a
+              href="#contact"
+              className="font-dm text-sm tracking-wide flex items-center gap-2"
               style={{ color: 'var(--muted)' }}
             >
-              A digital studio that builds products people need.
-              <br />
-              Born in Nigeria — built for everywhere.
-            </p>
-          </ScrollReveal>
+              Get in Touch
+              <ArrowRight size={14} aria-hidden="true" />
+            </a>
+          </div>
+        </ScrollReveal>
 
-          <ScrollReveal delay={0.45}>
-            <div className="flex flex-wrap items-center gap-6">
-              <a href="#ventures" className="btn-primary font-dm">
-                Our Ventures
-                <ArrowRight size={15} aria-hidden="true" />
-              </a>
-              <a
-                href="#contact"
-                className="font-dm text-sm tracking-wide flex items-center gap-2"
-                style={{ color: 'var(--muted)' }}
-              >
-                Get in Touch
-                <ArrowRight size={14} aria-hidden="true" />
-              </a>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* ── Right — bulb image ── */}
-        <div className="hidden md:flex items-start justify-center relative overflow-hidden pt-0">
-
-          {/* Left-edge fade so image blends into page */}
+        {/* Inline stats */}
+        <ScrollReveal delay={0.55}>
           <div
-            className="absolute inset-y-0 left-0 w-20 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to right, var(--bg), transparent)' }}
-            aria-hidden="true"
-          />
-
-          {/* Warm caramel glow behind the bulb */}
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              top: '5%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '280px',
-              height: '280px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(193,154,107,0.14) 0%, transparent 70%)',
-              filter: 'blur(30px)',
-              animation: 'drift 12s ease-in-out infinite alternate',
-            }}
-            aria-hidden="true"
-          />
-
-          <Image
-            src="https://i.pinimg.com/1200x/f5/35/bc/f535bc04811602bd6d8aa5917acb6ece.jpg"
-            alt="A lit lightbulb hanging on a long wire — the symbol of an idea"
-            width={560}
-            height={900}
-            priority
-            className="w-full h-full"
-            style={{
-              objectFit: 'cover',
-              objectPosition: 'top center',
-              mixBlendMode: 'screen',
-              opacity: 0.88,
-            }}
-          />
-        </div>
+            className="flex flex-wrap justify-center gap-10 pt-8"
+            style={{ borderTop: '1px solid var(--border)' }}
+          >
+            {[
+              { value: '2026', label: 'Founded' },
+              { value: '∞', label: 'Industries' },
+              { value: 'Global', label: 'Reach' },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col items-center gap-1">
+                <span
+                  className="font-jakarta font-bold text-2xl"
+                  style={{ color: 'var(--text)' }}
+                >
+                  {stat.value}
+                </span>
+                <span
+                  className="font-dm text-xs tracking-widest uppercase"
+                  style={{ color: 'var(--muted)' }}
+                >
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
 
       </div>
+
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        aria-hidden="true"
+      >
+        <div
+          style={{
+            width: '1px',
+            height: '48px',
+            background: 'linear-gradient(to bottom, rgba(193,154,107,0.6), transparent)',
+            animation: 'scrollBounce 2s ease-in-out infinite',
+          }}
+        />
+        <span
+          className="font-dm text-xs tracking-[0.2em] uppercase"
+          style={{ color: 'rgba(193,154,107,0.45)' }}
+        >
+          Scroll
+        </span>
+      </div>
+
+      <style>{`
+        @keyframes scrollBounce {
+          0%, 100% { opacity: 0.4; transform: translateY(0); }
+          50% { opacity: 1; transform: translateY(6px); }
+        }
+      `}</style>
     </section>
   )
 }

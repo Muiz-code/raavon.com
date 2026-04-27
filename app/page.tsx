@@ -5,6 +5,7 @@ import Marquee from '@/components/sections/Marquee'
 import About from '@/components/sections/About'
 import Ventures from '@/components/sections/Ventures'
 import Philosophy from '@/components/sections/Philosophy'
+import Stats from '@/components/sections/Stats'
 import Contact from '@/components/sections/Contact'
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
         <About />
         <Ventures />
         <Philosophy />
+        <Stats />
         <Contact />
       </main>
       <Footer />

@@ -19,6 +19,7 @@ export default function VentureCard({ tag, name, description, status, active }: 
       style={{
         background: 'var(--card)',
         border: '1px solid var(--border)',
+        height: '320px',
       }}
       data-cursor-grow
     >
