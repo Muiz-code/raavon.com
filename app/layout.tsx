@@ -1,152 +1,75 @@
-import type { Metadata } from 'next'
-import { Plus_Jakarta_Sans, DM_Sans, Fraunces } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Bricolage_Grotesque } from 'next/font/google'
 import './globals.css'
-import { siteMetadata } from '@/lib/metadata'
-import Providers from '@/context/ThemeContext'
-import { ToastProvider } from '@/context/ToastContext'
-import Loader from '@/components/ui/Loader'
-import Cursor from '@/components/ui/Cursor'
-import ScrollProgress from '@/components/ui/ScrollProgress'
-import NewsletterPopup from '@/components/ui/NewsletterPopup'
+import { site } from '@/content/site'
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: '--font-jakarta',
+/* Brand guide: Bricolage Grotesque throughout. 800 display, 600 labels, 400 body. */
+const bricolage = Bricolage_Grotesque({
+  variable: '--font-bricolage',
   subsets: ['latin'],
-  weight: ['400', '500', '700', '800'],
   display: 'swap',
-})
-
-const dm = DM_Sans({
-  variable: '--font-dm',
-  subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  display: 'swap',
-})
-
-const fraunces = Fraunces({
-  variable: '--font-fraunces',
-  subsets: ['latin'],
-  weight: ['300'],
-  style: ['normal', 'italic'],
-  display: 'swap',
+  // Width axis powers the interactive hero type; optical size keeps large type crisp.
+  axes: ['wdth', 'opsz'],
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteMetadata.url),
+  metadataBase: new URL(site.url),
   title: {
-    default: siteMetadata.title,
-    template: siteMetadata.titleTemplate,
+    default: `${site.name} | Ambitious ideas. Thoughtfully built.`,
+    template: `%s | ${site.name}`,
   },
-  description: siteMetadata.description,
-  keywords: siteMetadata.keywords,
-  authors: [{ name: 'Raavon Group', url: siteMetadata.url }],
-  creator: 'Raavon Group',
-  publisher: 'Raavon Group',
-  applicationName: 'Raavon',
-  category: 'Technology',
+  description: site.description,
+  applicationName: site.name,
   openGraph: {
     type: 'website',
-    url: siteMetadata.url,
-    siteName: 'Raavon',
-    locale: siteMetadata.locale,
-    title: siteMetadata.title,
-    description: siteMetadata.description,
+    siteName: site.name,
+    locale: 'en_GB',
+    url: site.url,
+    title: `${site.name} | Ambitious ideas. Thoughtfully built.`,
+    description: site.description,
   },
-  twitter: {
-    card: 'summary_large_image',
-    site: siteMetadata.twitterHandle,
-    creator: siteMetadata.twitterHandle,
-    title: siteMetadata.title,
-    description: siteMetadata.description,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  alternates: {
-    canonical: siteMetadata.url,
-  },
+  twitter: { card: 'summary_large_image' },
+  robots: { index: true, follow: true },
 }
 
-/* ── Structured data ─────────────────────────────────────────────── */
+export const viewport: Viewport = {
+  themeColor: '#0b0b0e',
+  colorScheme: 'dark light',
+}
 
+/* Only verified facts belong in structured data. */
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  '@id': `${siteMetadata.url}/#organization`,
-  name: 'Raavon Group',
-  legalName: 'Raavon Group',
-  url: siteMetadata.url,
-  logo: {
-    '@type': 'ImageObject',
-    url: `${siteMetadata.url}/raavon-icon-dark.svg`,
-    width: 512,
-    height: 512,
-  },
-  description: siteMetadata.description,
-  foundingDate: '2026',
-  foundingLocation: {
-    '@type': 'Place',
-    name: 'Lagos, Nigeria',
-    addressCountry: 'NG',
-  },
-  areaServed: 'Worldwide',
-  knowsAbout: [
-    'Software Development',
-    'Product Design',
-    'Financial Technology',
-    'Artificial Intelligence',
-    'Mobile Applications',
-    'Web Platforms',
-    'Digital Ventures',
-    'Technology Consulting',
-  ],
-  sameAs: [],
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  ...(site.legalName ? { legalName: site.legalName } : {}),
+  url: site.url,
+  email: site.email,
+  description: site.description,
+  slogan: site.signature,
 }
 
-const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  '@id': `${siteMetadata.url}/#website`,
-  url: siteMetadata.url,
-  name: 'Raavon',
-  description: siteMetadata.description,
-  publisher: { '@id': `${siteMetadata.url}/#organization` },
-  inLanguage: 'en-US',
-}
+/**
+ * Runs before paint:
+ * - marks the document as JS-capable so reveal animations can hide content
+ *   (content stays visible without JS)
+ * - decides whether the intro plays: home page, first visit this session,
+ *   and no reduced-motion preference
+ */
+const bootScript = `(function(){try{var d=document.documentElement;d.classList.add('js');var m=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var seen=false;try{seen=!!sessionStorage.getItem('rv-intro')}catch(e){}if(location.pathname==='/'&&!m&&!seen){d.setAttribute('data-intro','play')}}catch(e){}})();`
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${jakarta.variable} ${dm.variable} ${fraunces.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en-GB" className={bricolage.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([organizationSchema, websiteSchema]),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, '\\u003c') }}
         />
       </head>
-      <body>
-        <Providers>
-          <ToastProvider>
-            <Loader />
-            <Cursor />
-            <ScrollProgress />
-            <NewsletterPopup />
-            {children}
-          </ToastProvider>
-        </Providers>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

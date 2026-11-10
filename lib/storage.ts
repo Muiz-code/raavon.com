@@ -1,6 +1,15 @@
+import 'server-only'
 import fs from 'fs'
 import path from 'path'
 
+/**
+ * Local JSON storage for the admin console.
+ *
+ * WARNING: on serverless hosts (Vercel) /tmp is per-instance and is wiped
+ * on redeploy, so records here are NOT durable in production. The team
+ * notification email is the system of record for enquiries. Replace this
+ * module with a database table (see docs/OUTSTANDING.md) for durable storage.
+ */
 const DATA_DIR = process.env.NODE_ENV === 'production'
   ? '/tmp/raavon-data'
   : path.join(process.cwd(), 'data')
@@ -29,8 +38,11 @@ export interface ContactSubmission {
   id: string
   name: string
   email: string
+  company?: string
   subject: string
   message: string
+  budget?: string
+  timeline?: string
   createdAt: string
 }
 

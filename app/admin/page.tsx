@@ -1,16 +1,19 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { LogOut, Mail, Users, Send, RefreshCw, X, ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
-import { useToast } from '@/context/ToastContext'
+import { useToast } from './_components/ToastProvider'
 
 /* ── Types ───────────────────────────────────────────────────────── */
 interface Contact {
   id: string
   name: string
   email: string
+  company?: string
   subject: string
   message: string
+  budget?: string
+  timeline?: string
   createdAt: string
 }
 
@@ -116,14 +119,20 @@ function ContactsTab() {
   const [sentIds, setSentIds] = useState<string[]>([])
   const toast = useToast()
 
-  const load = useCallback(async () => {
-    setLoading(true)
-    const res = await fetch('/api/admin/contacts')
-    if (res.ok) setContacts(await res.json())
-    setLoading(false)
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/admin/contacts')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (cancelled) return
+        setContacts(data)
+        setLoading(false)
+      })
+      .catch(() => !cancelled && setLoading(false))
+    return () => {
+      cancelled = true
+    }
   }, [])
-
-  useEffect(() => { load() }, [load])
 
   async function sendReply(contact: Contact) {
     if (!replyState) return
@@ -176,6 +185,13 @@ function ContactsTab() {
 
           {expanded === c.id && (
             <div style={{ marginTop: '20px', borderTop: '1px solid rgba(193,154,107,0.1)', paddingTop: '20px' }}>
+              {(c.company || c.budget || c.timeline) && (
+                <p style={{ ...s.muted, margin: '0 0 16px' }}>
+                  {[c.company && `Company: ${c.company}`, c.budget && `Budget: ${c.budget}`, c.timeline && `Timeline: ${c.timeline}`]
+                    .filter(Boolean)
+                    .join('  ·  ')}
+                </p>
+              )}
               <p style={{ fontSize: '14px', color: 'rgba(250,247,242,0.65)', lineHeight: 1.8, whiteSpace: 'pre-wrap', margin: '0 0 20px' }}>
                 {c.message}
               </p>
@@ -234,14 +250,20 @@ function SubscribersTab() {
   const [pendingRemove, setPendingRemove] = useState<string | null>(null)
   const toast = useToast()
 
-  const load = useCallback(async () => {
-    setLoading(true)
-    const res = await fetch('/api/admin/subscribers')
-    if (res.ok) setSubscribers(await res.json())
-    setLoading(false)
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/admin/subscribers')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (cancelled) return
+        setSubscribers(data)
+        setLoading(false)
+      })
+      .catch(() => !cancelled && setLoading(false))
+    return () => {
+      cancelled = true
+    }
   }, [])
-
-  useEffect(() => { load() }, [load])
 
   async function remove(email: string) {
     setPendingRemove(null)
@@ -375,7 +397,7 @@ function BroadcastTab() {
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <button type="submit" disabled={sending} style={confirmed ? { ...s.btnSolid, background: 'rgba(200,116,116,0.15)', borderColor: '#C87474', color: '#FAF7F2' } : s.btnSolid}>
             <Send size={13} />
-            {sending ? 'Sending…' : confirmed ? 'Confirm — send to everyone?' : 'Send to All Subscribers'}
+            {sending ? 'Sending…' : confirmed ? 'Confirm: send to everyone?' : 'Send to All Subscribers'}
           </button>
           {confirmed && (
             <button type="button" style={s.btn} onClick={() => setConfirmed(false)}>

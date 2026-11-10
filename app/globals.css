@@ -1,211 +1,683 @@
 @import "tailwindcss";
-@import "../styles/animations.css";
 
-/* Class-based dark mode for next-themes */
-@variant dark (&:where(.dark, .dark *));
-
-/* ─── Brand colour tokens ─────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────────────
+   RaaVon design tokens
+   Source: docs/brand/RaaVon_Brand_Guide_V1_Draft.pdf (09 Nov 2026)
+   Change brand values here only. Components read these tokens.
+   ────────────────────────────────────────────────────────────────────── */
 @theme {
-  --color-caramel:      #C19A6B;
-  --color-mahogany:     #4E2C20;
-  --color-tan:          #D2B48C;
-  --color-off-white:    #FAF7F2;
-  --color-near-black:   #0A0A0A;
-  --color-dark-surface: #111009;
-  --color-dark-card:    #1A1610;
-  --color-light-card:   #EDE5D8;
+  --color-noir: #0b0b0e;
+  --color-noir-raised: #141418;
+  --color-cream: #ece6d8;
+  --color-cream-raised: #e3dccb;
+  --color-burgundy: #6f1d1b;
+  --color-burgundy-hover: #581715;
+  --color-burgundy-pressed: #421110;
+  --color-gold: #e6c989;
+  --color-caramel: #c19a6b;
+
+  /* Secondary text, checked for AA contrast on each canvas */
+  --color-ink-soft: #3d3a35; /* on cream, 9:1 */
+  --color-mist: #b9b3a6; /* on noir, 9:1 */
+
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-/* ─── Custom font utilities (next/font injects CSS vars on <html>) ── */
-@layer utilities {
-  .font-jakarta  { font-family: var(--font-jakarta),  sans-serif; }
-  .font-dm       { font-family: var(--font-dm),       sans-serif; }
-  .font-fraunces { font-family: var(--font-fraunces), serif; }
+@layer components {
+
+/* ─── Surfaces ──────────────────────────────────────────────────────────
+   Every section declares a surface. The surface sets text colour,
+   secondary text, rules and the focus ring colour from the brand guide:
+   burgundy focus on light, gold focus on dark.                          */
+.surface-noir {
+  --surface: var(--color-noir);
+  --surface-raised: var(--color-noir-raised);
+  --fg: var(--color-cream);
+  --fg-soft: var(--color-mist);
+  --line: rgb(236 230 216 / 0.14);
+  --line-strong: rgb(236 230 216 / 0.32);
+  --accent: var(--color-gold);
+  --focus: var(--color-gold);
+  background-color: var(--surface);
+  color: var(--fg);
 }
 
-/* ─── Semantic theme variables ────────────────────────────── */
-:root {
-  /* Dark by default */
-  --bg:      #0A0A0A;
-  --surface: #111009;
-  --card:    #1A1610;
-  --border:  rgba(193, 154, 107, 0.12);
-  --text:    #FAF7F2;
-  --muted:   rgba(250, 247, 242, 0.45);
-  --accent:  #C19A6B;
+.surface-cream {
+  --surface: var(--color-cream);
+  --surface-raised: var(--color-cream-raised);
+  --fg: var(--color-noir);
+  --fg-soft: var(--color-ink-soft);
+  --line: rgb(11 11 14 / 0.14);
+  --line-strong: rgb(11 11 14 / 0.3);
+  --accent: var(--color-burgundy);
+  --focus: var(--color-burgundy);
+  background-color: var(--surface);
+  color: var(--fg);
 }
 
-.light {
-  --bg:      #FAF7F2;
-  --surface: #F2EDE4;
-  --card:    #EDE5D8;
-  --border:  rgba(78, 44, 32, 0.1);
-  --text:    #0A0A0A;
-  --muted:   rgba(10, 10, 10, 0.45);
-  --accent:  #4E2C20;
-}
-
-/* ─── Base ────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  cursor: none;
-  box-sizing: border-box;
-}
-
-/* Restore native cursor + hide custom cursor on touch/hover-none devices */
-@media (hover: none) {
-  *, *::before, *::after { cursor: auto; }
-  a, button { cursor: pointer; }
-  [data-cursor] { display: none !important; }
-}
-
+/* ─── Base ─────────────────────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background-color: var(--color-noir);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: var(--font-dm), ui-sans-serif, system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  overflow-x: hidden;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  background-color: var(--color-cream);
+  color: var(--color-noir);
 }
 
-/* ─── Grain overlay ───────────────────────────────────────── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  pointer-events: none;
-  z-index: 9990;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.038;
-  animation: grain 8s steps(10) infinite;
-}
-
-/* ─── Scrollbar ───────────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(193, 154, 107, 0.3);
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid var(--focus, var(--color-burgundy));
+  outline-offset: 3px;
   border-radius: 2px;
 }
 
-/* ─── Selection ───────────────────────────────────────────── */
 ::selection {
-  background: rgba(193, 154, 107, 0.25);
-  color: var(--text);
+  background: var(--color-gold);
+  color: var(--color-noir);
 }
 
-/* ─── Button base ─────────────────────────────────────────── */
+img {
+  max-width: 100%;
+}
+
+/* Anchored sections clear the fixed header */
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+/* ─── Layout ───────────────────────────────────────────────────────── */
+.container-site {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-site {
+    padding-inline: 2.5rem;
+  }
+}
+@media (min-width: 1280px) {
+  .container-site {
+    padding-inline: 4rem;
+  }
+}
+
+.section {
+  padding-block: clamp(5rem, 3rem + 8vw, 10rem);
+}
+
+.rule {
+  border-color: var(--line);
+}
+
+/* ─── Type ─────────────────────────────────────────────────────────── */
+.display-hero {
+  font-weight: 800;
+  font-size: clamp(2.75rem, 1.6rem + 5vw, 5.5rem); /* 44px mobile → 88px desktop */
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+.display-xl {
+  font-weight: 800;
+  font-size: clamp(2.5rem, 1.2rem + 5.4vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+.display-l {
+  font-weight: 800;
+  font-size: clamp(2.125rem, 1.3rem + 3.2vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.display-m {
+  font-weight: 800;
+  font-size: clamp(1.5rem, 1.15rem + 1.3vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.lead {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  line-height: 1.45;
+}
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.text-soft {
+  color: var(--fg-soft);
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inline links are underlined (brand guide, buttons and interaction) */
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-thickness 0.2s ease;
+}
+.link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: 3rem; /* 48px minimum control height */
+  padding: 0 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.btn svg {
+  transition: transform 0.3s var(--ease-out-expo);
+}
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
 .btn-primary {
-  position: relative;
-  overflow: hidden;
+  background-color: var(--color-burgundy);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: var(--color-burgundy-hover);
+}
+.btn-primary:active {
+  background-color: var(--color-burgundy-pressed);
+}
+.btn-primary:disabled,
+.btn-primary[aria-disabled="true"] {
+  background-color: #d8d3c8;
+  color: #57534b;
+  cursor: not-allowed;
+}
+.btn-primary:disabled svg {
+  transform: none;
+}
+
+/* Secondary: burgundy on cream, cream on noir */
+.btn-secondary {
+  color: var(--color-burgundy);
+  border-color: var(--color-burgundy);
+  background: transparent;
+}
+.btn-secondary:hover {
+  background-color: rgb(111 29 27 / 0.08);
+}
+.surface-noir .btn-secondary {
+  color: var(--color-cream);
+  border-color: rgb(236 230 216 / 0.5);
+}
+.surface-noir .btn-secondary:hover {
+  border-color: var(--color-cream);
+  background-color: rgb(236 230 216 / 0.06);
+}
+
+/* Text link with arrow */
+.arrow-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.75rem;
-  border: 1px solid #C19A6B;
-  color: var(--text);
-  font-family: var(--font-dm), sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
-  z-index: 0;
+  min-height: 3rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+.surface-cream .arrow-link {
+  color: var(--color-burgundy);
+}
+.arrow-link svg {
+  transition: transform 0.3s var(--ease-out-expo);
+}
+.arrow-link:hover svg {
+  transform: translateX(3px);
 }
 
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: #C19A6B;
-  transform: translateX(-101%);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: -1;
+/* Status pill: always text + dot, never colour alone */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.status::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--color-caramel);
 }
 
-.btn-primary:hover::before { transform: translateX(0); }
-.btn-primary:hover { color: #0A0A0A; }
-
-/* ─── Venture card border-slide ──────────────────────────── */
-.product-card {
-  position: relative;
-  overflow: hidden;
+/* ─── Forms ────────────────────────────────────────────────────────── */
+.field-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: 0.5rem;
 }
-.product-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 100%;
-  bottom: 0;
-  width: 2px;
-  background: #C19A6B;
-  transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.field-hint {
+  font-weight: 400;
+  color: var(--fg-soft);
 }
-.product-card:hover::before { top: 0; }
+.field {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--line-strong);
+  background-color: var(--surface-raised);
+  color: var(--fg);
+  font: inherit;
+  transition: border-color 0.2s ease;
+}
+.field::placeholder {
+  color: var(--fg-soft);
+  opacity: 0.8;
+}
+.field:hover {
+  border-color: var(--fg-soft);
+}
+.field:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+  border-color: var(--fg);
+}
+.field[aria-invalid="true"] {
+  border-color: var(--color-burgundy);
+  border-width: 2px;
+}
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%233d3a35' stroke-width='1.75' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.75rem;
+}
+.field-error {
+  display: flex;
+  gap: 0.375rem;
+  align-items: flex-start;
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-burgundy);
+}
+.surface-noir .field-error {
+  color: var(--color-gold);
+}
 
-/* ─── Navbar scrolled state ─────────────────────────────── */
-.navbar-scrolled {
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
+/* ─── Header ───────────────────────────────────────────────────────── */
+.site-header {
+  background-color: transparent;
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    transform 0.4s var(--ease-out-expo);
+}
+/* Hidden while the footer is on screen. Keyboard focus (focus-visible) inside it
+   brings it back; a mouse click on a link does not keep it pinned. */
+.site-header[data-hidden="true"]:not(:has(:focus-visible)) {
+  transform: translateY(-100%);
+}
+.site-header[data-scrolled="true"] {
+  background-color: rgb(11 11 14 / 0.95);
+  border-color: rgb(236 230 216 / 0.12);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
 }
-
-/* ─── Nav link underline ─────────────────────────────────── */
 .nav-link {
-  position: relative;
-}
-.nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 1px;
-  background: #C19A6B;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.nav-link:hover::after { width: 100%; }
-
-/* ─── Contact link animated underline ───────────────────── */
-.contact-link {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  min-height: 3rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--color-mist);
+  transition: color 0.2s ease;
 }
-.contact-link::after {
-  content: '';
+.nav-link:hover,
+.nav-link[aria-current="page"] {
+  color: var(--color-cream);
+}
+.nav-link::after {
+  content: "";
   position: absolute;
   left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 1px;
-  background: var(--accent);
-  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  right: 0;
+  bottom: 0.7rem;
+  height: 2px;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out-expo);
 }
-.contact-link:hover::after { width: 100%; }
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
 
-/* ─── Logo colours ───────────────────────────────────────── */
-/* Dark: "Raav" is off-white so it pops on dark bg           */
-/* Light: "Raav" switches to caramel to stay readable        */
-.logo-primary { color: #FAF7F2; }
-.light .logo-primary { color: #C19A6B; }
-
-/* ─── Pulse dot ──────────────────────────────────────────── */
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #C19A6B;
-  animation: pulse-dot 2s ease-in-out infinite;
-  display: inline-block;
+/* ─── Hero rosette ─────────────────────────────────────────────────────
+   The official rosette is shown exactly as supplied: no recolour, no
+   stretch, no glow. Desktop crops about half at the right edge (brand
+   guide). Mobile places it in flow below the copy so it never overlaps. */
+.hero-rosette {
+  position: relative;
+  width: 118vw;
+  aspect-ratio: 1;
   flex-shrink: 0;
+  margin-left: 26vw;
+  margin-top: auto; /* sits at the foot of the first screen, below the copy */
+  padding-top: 0;
+  margin-bottom: -59vw; /* crop the lower half at the section edge */
+  pointer-events: none;
+  user-select: none;
 }
+@media (min-width: 768px) {
+  .hero-rosette {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: min(74vw, 64rem);
+    margin: 0;
+    transform: translate(50%, -50%);
+  }
+}
+@media (min-width: 1024px) {
+  .hero-rosette {
+    width: min(70vw, 70rem);
+  }
+}
+.hero-rosette-spin {
+  width: 100%;
+  height: 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rosette-spin {
+    animation: rosette-turn 260s linear infinite;
+  }
+}
+@keyframes rosette-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Motion ───────────────────────────────────────────────────────────
+   Start states for GSAP (components/motion/ScrollEffects.tsx). Only applied
+   when JS is running (html.js) and the visitor allows motion, so without
+   JS, or with reduced motion, everything is visible and static.          */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .reveal:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  /* Hero copy rises line by line on load */
+  html.js .hero-rise {
+    animation: hero-rise 1.1s var(--ease-out-expo) both;
+    animation-delay: calc(var(--d, 0ms) + 120ms);
+  }
+  html.js[data-intro="play"] .hero-rise {
+    animation-delay: calc(var(--d, 0ms) + 2250ms);
+  }
+  .hero-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+
+  /* Rules whose length is scrubbed by scroll */
+  html.js .draw-x {
+    transform: scaleX(0);
+  }
+  html.js .draw-y {
+    transform: scaleY(0);
+  }
+}
+.draw-x {
+  transform-origin: left center;
+}
+.draw-y {
+  transform-origin: center top;
+}
+
+/* ─── Interactive hero type ───────────────────────────────────────────
+   Each letter reads --p (0 to 1, set from cursor distance) and narrows
+   along Bricolage Grotesque's width axis while warming to gold.          */
+.hero-char {
+  display: inline-block;
+  --p: 0;
+  font-variation-settings:
+    "wdth" calc(100 - var(--p) * 25),
+    "wght" 800;
+  color: color-mix(in srgb, var(--color-gold) calc(var(--p) * 100%), var(--color-cream));
+  transform: translateY(calc(var(--p) * -0.06em));
+  will-change: font-variation-settings;
+}
+
+/* ─── Custom cursor (landing page only, see CustomCursor.tsx) ────────── */
+.custom-cursor {
+  display: none;
+}
+html.has-custom-cursor .custom-cursor {
+  display: block;
+}
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+html.has-custom-cursor :is(input, textarea, select, [contenteditable="true"]) {
+  cursor: text !important;
+}
+html.has-custom-cursor select {
+  cursor: pointer !important;
+}
+.custom-cursor-ring,
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+  border-radius: 999px;
+  translate: -50% -50%;
+  transition:
+    width 0.35s var(--ease-out-expo),
+    height 0.35s var(--ease-out-expo),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    opacity 0.25s ease;
+}
+.custom-cursor-ring {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1.5px solid var(--color-cream);
+  mix-blend-mode: difference;
+  display: grid;
+  place-items: center;
+}
+.custom-cursor-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  background: var(--color-gold);
+}
+.custom-cursor-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-noir);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.custom-cursor[data-visible="false"] :is(.custom-cursor-ring, .custom-cursor-dot) {
+  opacity: 0;
+}
+.custom-cursor[data-state="link"] .custom-cursor-ring {
+  width: 3.5rem;
+  height: 3.5rem;
+  background: rgb(236 230 216 / 0.12);
+}
+.custom-cursor[data-state="label"] .custom-cursor-ring {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-color: var(--color-gold);
+  background: var(--color-gold);
+  mix-blend-mode: normal;
+}
+.custom-cursor[data-state="label"] .custom-cursor-label {
+  opacity: 1;
+}
+.custom-cursor[data-state="label"] .custom-cursor-dot,
+.custom-cursor[data-state="lens"] .custom-cursor-dot,
+.custom-cursor[data-state="text"] :is(.custom-cursor-ring, .custom-cursor-dot) {
+  opacity: 0;
+}
+.custom-cursor[data-state="lens"] .custom-cursor-ring {
+  width: 9rem;
+  height: 9rem;
+  border-color: transparent;
+  background: var(--color-cream);
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────
+   Hidden visually; scrolling stays native (wheel, touch, keyboard). The
+   gold tracker at the top of the page shows position instead.           */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(105%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ─── Intro (first visit to the home page only) ───────────────────────
+   Hidden by default. An inline script in <head> sets data-intro="play"
+   for first-time visitors who allow motion. A CSS failsafe removes the
+   overlay even if the script that drives it never runs.                 */
+.intro {
+  display: none;
+}
+html[data-intro="play"]:not([data-intro-done]) .intro {
+  display: flex;
+  animation: intro-failsafe 0.4s ease 4.5s forwards;
+}
+html[data-intro="play"]:not([data-intro-done]) .hero-rosette img {
+  opacity: 0;
+  animation: intro-failsafe-in 0.4s ease 4.5s forwards;
+}
+@keyframes intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes intro-failsafe-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ─── Selected work: phone frame ───────────────────────────────────── */
+.phone {
+  position: relative;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow:
+    0 0 0 1px rgb(236 230 216 / 0.12),
+    0 40px 80px -30px rgb(0 0 0 / 0.7);
+}
+.phone-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  aspect-ratio: 591 / 1280;
+  background: #000;
+}
+.phone-screen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    opacity 0.7s ease,
+    transform 0.9s var(--ease-out-expo);
+}
+.phone-screen img[data-active="false"] {
+  opacity: 0;
+  transform: scale(1.03);
+}
+@media (prefers-reduced-motion: reduce) {
+  .phone-screen img {
+    transition: none;
+  }
+}
+
+/* Skip link */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: none;
+}
+
+} /* end @layer components */

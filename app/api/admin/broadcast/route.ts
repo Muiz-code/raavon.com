@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { resend, FROM_EMAIL } from '@/lib/resend'
-import { newsletterBroadcastEmail } from '@/lib/emails'
+import { isAdmin } from '@/lib/security/admin-session'
+import { getMailer, sendEmail, FROM_EMAIL } from '@/lib/email/client'
+import { newsletterBroadcastEmail } from '@/lib/email/templates'
 import { storage } from '@/lib/storage'
 
-function isAuthed(req: NextRequest) {
-  return req.cookies.get('raavon_admin')?.value === process.env.ADMIN_PASSWORD
-}
-
 export async function POST(req: NextRequest) {
-  if (!isAuthed(req)) return NextResponse.json({ error: 'Unauthorised.' }, { status: 401 })
+  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorised.' }, { status: 401 })
 
-  const { subject, body } = await req.json()
+  const { subject, body } = await req.json().catch(() => ({}))
   if (!subject || !body) {
     return NextResponse.json({ error: 'Subject and body required.' }, { status: 400 })
+  }
+  if (!getMailer()) {
+    return NextResponse.json({ error: 'Email is not configured (RESEND_API_KEY missing).' }, { status: 503 })
   }
 
   const subscribers = storage.subscribers.list()
@@ -20,17 +20,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'No subscribers.' }, { status: 400 })
   }
 
-  /* Send in batches of 10 to avoid rate limits */
   const results = { sent: 0, failed: 0 }
   for (const sub of subscribers) {
-    const html = newsletterBroadcastEmail(subject, body, sub.email)
-    try {
-      await resend.emails.send({ from: FROM_EMAIL, to: sub.email, subject, html })
-      results.sent++
-    } catch {
-      results.failed++
-    }
+    const result = await sendEmail({
+      from: FROM_EMAIL,
+      to: sub.email,
+      subject: String(subject),
+      html: newsletterBroadcastEmail(String(subject), String(body), sub.email),
+    })
+    if (result.ok) results.sent++
+    else results.failed++
   }
 
-  return NextResponse.json({ success: true, ...results })
+  return NextResponse.json({ success: results.failed === 0, ...results })
 }

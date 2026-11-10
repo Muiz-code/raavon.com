@@ -1,17 +1,22 @@
 import type { NextConfig } from 'next'
 
+const securityHeaders = [
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+]
+
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i.pinimg.com',
-      },
-    ],
+    formats: ['image/avif', 'image/webp'],
+    qualities: [75, 100],
+  },
+  async redirects() {
+    return [{ source: '/ventures/klario', destination: '/work/klario', permanent: true }]
+  },
+  async headers() {
+    return [{ source: '/(.*)', headers: securityHeaders }]
   },
 }
 

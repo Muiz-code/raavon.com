@@ -1,27 +1,19 @@
 import type { MetadataRoute } from 'next'
-import { BLOG_POSTS } from '@/lib/constants'
+import { site } from '@/content/site'
+import { projects } from '@/content/projects'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const blogRoutes = BLOG_POSTS.map((post) => ({
-    url: `https://raavon.com/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }))
-
+  const pages = ['', '/work', '/ventures', '/capabilities', '/studio', '/about', '/contact']
   return [
-    {
-      url: 'https://raavon.com',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: 'https://raavon.com/blog',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    ...blogRoutes,
+    ...pages.map((p) => ({
+      url: `${site.url}${p}`,
+      changeFrequency: 'monthly' as const,
+      priority: p === '' ? 1 : 0.8,
+    })),
+    ...projects.map((p) => ({
+      url: `${site.url}/work/${p.slug}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
   ]
 }

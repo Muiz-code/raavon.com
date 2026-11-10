@@ -1,30 +1,34 @@
-export const siteMetadata = {
-  title: 'Raavon Group — Building Ventures Across Every Industry',
-  titleTemplate: '%s | Raavon Group',
-  description:
-    'Raavon is a global holding company building software products and technology ventures across every industry. One spirit. Many ventures.',
-  keywords: [
-    'Raavon',
-    'Raavon Group',
-    'holding company',
-    'software studio',
-    'digital solutions',
-    'technology ventures',
-    'software development',
-    'product design',
-    'mobile applications',
-    'web platforms',
-    'fintech',
-    'AI products',
-    'digital brands',
-    'global technology company',
-    'startup studio',
-    'venture builder',
-    'Nigeria tech company',
-    'African technology',
-  ].join(', '),
-  url: 'https://raavon.com',
-  ogImage: 'https://raavon.com/og-image.png',
-  twitterHandle: '@raavongroup',
-  locale: 'en_US',
+import type { Metadata } from 'next'
+import { site } from '@/content/site'
+
+/** Per-page metadata with canonical URL and social cards. */
+export function pageMetadata({
+  title,
+  description,
+  path,
+}: {
+  title?: string
+  description: string
+  path: string
+}): Metadata {
+  const url = `${site.url}${path === '/' ? '' : path}`
+  const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Ambitious ideas. Thoughtfully built.`
+  return {
+    title: title ?? { absolute: fullTitle },
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      url,
+      siteName: site.name,
+      title: fullTitle,
+      description,
+      locale: 'en_GB',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: fullTitle,
+      description,
+    },
+  }
 }
